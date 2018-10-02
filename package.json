@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcwhiteley/sturdy-octo-enigma.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rcwhiteley/sturdy-octo-enigma/issues"
+  },
+  "homepage": "https://github.com/rcwhiteley/sturdy-octo-enigma#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-promise-router": "^3.0.3",
+    "pg": "^7.4.3"
+  }
+}
