@@ -20,7 +20,11 @@ router.get('/', (req, res)=>{
     let destino = req.query.destino;
     let equipaje = req.query.equipaje;
     res.send("params: " + plazasRequeridas + " - " + asientosBebes  + " - " +  
-    fechaViaje + " - " +horaParada + " - " + origen + " - " + destino + " - " + equipaje);
+    fechaViaje + " - " + horaParada + " - " + origen + " - " + destino + " - " + equipaje);
+});
+
+router.get('/:viaje', async (req, res)=>{
+    
 });
 
 module.exports = router;
