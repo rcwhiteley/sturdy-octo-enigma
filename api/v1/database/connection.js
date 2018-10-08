@@ -1,20 +1,18 @@
 const {Pool} = require('pg');
 
 const connectionData = {
-    user: 'qbchsrcx',
-    host: 'baasu.db.elephantsql.com',
-    database: 'qbchsrcx',
-    password: 'gyh9_tV2EREVuUmgk5Rimn_XYGmSIkCl',
+    user: 'isw2018f',
+    host: 'http://bdd.inf.udec.cl',
+    database: 'isw2018f',
+    password: 'isw2018f'
+    //user: 'qbchsrcx',
+    //host: 'baasu.db.elephantsql.com',
+    //database: 'qbchsrcx',
+    //password: 'gyh9_tV2EREVuUmgk5Rimn_XYGmSIkCl',
     port: 5432,
 };
 
-const pool = new Pool(connectionData)
-pool.query('SELECT * FROM test')
-    .then(response => {
-        console.log("base de datos conectada.");
-    })
-    .catch(err => {
-        console.log("error al conectar a la base de datos.");
-    });
+const pool = new Pool(connectionData);
+
 
 exports.query = (text, params) => pool.query(text, params);
