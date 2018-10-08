@@ -50,7 +50,7 @@ exports.getUsuarioById = (id) => {
 };
 
 exports. getChoferByName = (nombre) => {
-
+d
 };
 
 exports.getChoferById = (id) => {

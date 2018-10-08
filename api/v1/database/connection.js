@@ -1,10 +1,10 @@
 const {Pool} = require('pg');
 
 const connectionData = {
-    user: 'isw2018f',
+    user: 'iswf',
     host: 'bdd.inf.udec.cl',
-    database: 'isw2018f',
-    password: 'isw2018f',
+    database: 'iswf',
+    password: 'iswf',
     //user: 'qbchsrcx',
     //host: 'baasu.db.elephantsql.com',
     //database: 'qbchsrcx',
@@ -13,6 +13,6 @@ const connectionData = {
 };
 
 const pool = new Pool(connectionData);
-
+{ result } = pool.query("select * from pasajero");
 
 exports.query = (text, params) => pool.query(text, params);
