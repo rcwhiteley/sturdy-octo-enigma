@@ -13,6 +13,5 @@ const connectionData = {
 };
 
 const pool = new Pool(connectionData);
-{ result } = pool.query("select * from pasajero");
 
 exports.query = (text, params) => pool.query(text, params);
