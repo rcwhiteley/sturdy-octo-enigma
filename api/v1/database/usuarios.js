@@ -42,7 +42,7 @@ function crearChoferDTO(dbo){
 }
 
 exports.getUsuarioByName = (nombre) => {
-    return db.query('select * from pasajero where nombre = $1', [id]);
+    return db.query('select * from pasajero where nombre = $1', [nombre]);
 };
 
 exports.getUsuarioById = (id) => {
