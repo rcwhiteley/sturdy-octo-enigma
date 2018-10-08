@@ -7,15 +7,10 @@ const db = require('../../database/database');
 
 router.use('/viajes', viajes);
 
-
-/** query params = ?tipo = one of[creados, reservados] */
 router.get('/:usuario/:viajes', async(req, res)=>{
 
 });
 
-/**
- * query params = ?from = one of[dados, recibidos];
- */
 router.get('/:usuario/:valoraciones', async(req, res)=>{
 
 });

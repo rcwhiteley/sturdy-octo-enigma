@@ -1,13 +1,21 @@
 const db = require('./connection');
 
-let createDTO = (resDb) => {
+let createDTO = (dbo) => {
     return {
-        nombre: resDb.usuario
+        pasajero: dbo.usuario,
+        viaje: dbo.idviaje,
+        origen: dbo.origen,
+        destino: dbo.destino,
+        estado: dbo.estado,
     }
 };
 
 function createDBO(dto){
     return {
-        usuario: dto.nombre
+        usuario: dto.nombre,
+        idviaje: dto.viaje,
+        origen: dto.origen,
+        destino: dto.destino,
+        estado: dto.estado,
     }
 };

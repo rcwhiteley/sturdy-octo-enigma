@@ -1,8 +1,8 @@
 const db = require('./connection');
 
-function createDTO (resDb) {
+function createDTO (dbo) {
     return {
-        nombre: resDb.usuario,
+        nombre: dbo.usuario,
         //etc..
     }
 };
