@@ -4,7 +4,7 @@ const connectionData = {
     user: 'isw2018f',
     host: 'http://bdd.inf.udec.cl',
     database: 'isw2018f',
-    password: 'isw2018f'
+    password: 'isw2018f',
     //user: 'qbchsrcx',
     //host: 'baasu.db.elephantsql.com',
     //database: 'qbchsrcx',
