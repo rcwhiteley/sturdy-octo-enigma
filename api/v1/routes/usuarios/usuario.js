@@ -16,7 +16,7 @@ router.get('/:usuario/:valoraciones', async(req, res)=>{
 });
 
 router.get('/:usuario', async(req, res)=>{
-	if(req.query.pornombre == true){
+	if(req.query.byname == 'true'){
 		console.log(req.params.usuario);
     	let query = await db.usuarios.getUsuarioByName(req.params.usuario);
     	res.send(query.rows);
