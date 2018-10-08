@@ -1,10 +1,10 @@
 const {Pool} = require('pg');
 
 const connectionData = {
-    user: 'iswf',
+    user: 'isw1f',
     host: 'bdd.inf.udec.cl',
-    database: 'iswf',
-    password: 'iswf',
+    database: 'isw1f',
+    password: 'isw1f',
     //user: 'qbchsrcx',
     //host: 'baasu.db.elephantsql.com',
     //database: 'qbchsrcx',
