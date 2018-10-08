@@ -16,9 +16,16 @@ router.get('/:usuario/:valoraciones', async(req, res)=>{
 });
 
 router.get('/:usuario', async(req, res)=>{
-    console.log(req.params.usuario);
-    let query = await db.usuarios.getUsuarioById(req.params.usuario);
-    res.send(query.rows);
+	if(req.query.pornombre == true){
+		console.log(req.params.usuario);
+    	let query = await db.usuarios.getUsuarioByName(req.params.usuario);
+    	res.send(query.rows);
+	}
+	else{
+    	console.log(req.params.usuario);
+    	let query = await db.usuarios.getUsuarioById(req.params.usuario);
+    	res.send(query.rows);
+	}
 });
 
 module.exports = router;
