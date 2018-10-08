@@ -2,7 +2,7 @@ const {Pool} = require('pg');
 
 const connectionData = {
     user: 'isw2018f',
-    host: 'http://bdd.inf.udec.cl',
+    host: 'bdd.inf.udec.cl',
     database: 'isw2018f',
     password: 'isw2018f',
     //user: 'qbchsrcx',
