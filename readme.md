@@ -130,7 +130,7 @@ POST:
         usuarioID: ver Ruta /{usuarioID}
     ejemplo: post /usuarios/piñera1/viajes (incluir body del request)
     body: viajeDTO - {id}
-
+```
 ###### /{usuarioID/viajes/{viajeID}}
 ```
 GET:
