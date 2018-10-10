@@ -57,7 +57,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     origen: string,
     destino: string,
     fecha: timestamp,
-    equipajeMaximo: integer
+    equipajeMaximo: integer,
     paradas: paradaDTO[]
 }
 ```
@@ -77,25 +77,52 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 ```
 ## Ruta /usuarios/
 
-###### Ruta /usuarios/{usuarioID}
+###### Ruta /{usuarioID}
 ```
 get:
-    descripcion: retorna un pasajeroDTO o conductprDTO
+    descripcion: Accede a un usuario por nombre o username
     parametros: 
         usuarioID: username o nombre del usuario
     parametros consulta: 
+        driver: true | false
+            descripcion: si true, se retornara un conductorDTO, en caso contrario pasajeroDTO
+        byname: true | false
+            descripcion: si true, se buscara al usuario por nombre, en caso contrao por username
+    ejemplo: get /usuarios/Sebastian Piñera?byname=true&driver=true
+    resultado: conductorDTO o pasajeroDTO
 ```
 
-###### Ruta /usuarios/{usuarioID}/viajes
+###### Ruta /{usuarioID}/viajes
 ```
 get:
-    descipcion: retorna los viajes creados y reservados por un usuario
+    descipcion: retorna los viajes creados y/o reservados por un usuario
     parametros consulta:
         origen: creados | reservados
             descripcion: Si origen=creados retornará los viajes creados por el conductor
                         con nombre o username igual a usuarioID, en caso contrario se 
                         buscara los viajes reservados por el pasajero asociado a usuarioID.
-    ejemplo: get /usuarios/18670598-k/viajes?origen=creados
+    ejemplo: get /piñera1/viajes?origen=creados
     resultado:
+                {
+                    viajes: viajeDTO[]
+                }
+
+```
+
+###### Ruta /{usuarioID/viajes/{viajeID}}
+```
+get:
+    descipcion: retorna los datos de un viaje particular
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+    ejemplo: get /piñera1/viajes/1
+    resultado:
+                {
+                    viaje: viajeDTO,
+                    paradas: paradaDTO[],
+                    pasajeros: pasajeroDTO[],
+                    conductor: conductorDTO
+                }
 
 ```
