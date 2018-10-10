@@ -3,6 +3,8 @@ Todas las consultas estaran en la ruta: /api/v1/
 
 ## Formato
 ###### ruta: ruta que se debe agregar anexar a la ruta especificada antes
+
+```
 {
     {operacion}: Tipo de consulta http (GET, POST, PUT, DELETE)
     descripcion: Descripcion de que hace la consulta
@@ -13,8 +15,10 @@ Todas las consultas estaran en la ruta: /api/v1/
     
 }
 
-## DTO
-Las DTO usadas son:
+```
+
+## Data Transfer Objects
+Los DTO usados son:
 ###### pasajeroDTO:
 ```
 {
