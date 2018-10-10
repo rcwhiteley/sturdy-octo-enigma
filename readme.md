@@ -22,22 +22,22 @@ Los DTO usados son:
 ##### pasajeroDTO:
 ```
 {
-	nombre: string
-	apellido: string
-	nombreUsuario: string
-	mail: string
-	celular: string 	
-	rut: string
-	valoracion: float
+    nombre: string
+    apellido: string
+    nombreUsuario: string
+    mail: string
+    celular: string 	
+    rut: string
+    valoracion: float
 }
 ```
 ##### conductorDTO
 Todas las propiedades pasajeroDTO mas las siguientes propiedades 
 ```
 {
-	fechaLicencia: string
-	claseLicencia: string
-	foto: url
+    fechaLicencia: string
+    claseLicencia: string
+    foto: url
 }
 ```
 ##### paradaDTO
