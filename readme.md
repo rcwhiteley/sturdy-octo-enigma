@@ -49,7 +49,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     plazasLibres: integer,
     hora: timestamp,
     direccion: string,
-    carga: int
+    carga: integer
 }
 ```
 
@@ -79,11 +79,24 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     conductor: string
 }
 ```
+
+###### reservaDTO
+```
+{
+    id: integer,
+    pasajero: string,
+    viaje: integer,
+    origen: string,
+    destino: string,
+    estado: string
+}
+```
+
 ## Ruta /usuarios
 
 ###### /{usuarioID}
 ```
-get:
+GET:
     descripcion: Accede a un usuario por nombre o username
     parametros: 
         usuarioID: username o nombre del usuario
@@ -98,43 +111,91 @@ get:
 
 ###### /{usuarioID}/viajes
 ```
-get:
-    descipcion: retorna los viajes creados y/o reservados por un usuario
-    parametros consulta:
-        origen: creados | reservados
-            descripcion: Si origen=creados retornará los viajes creados por el conductor
-                        con nombre o username igual a usuarioID, en caso contrario se 
-                        buscara los viajes reservados por el pasajero asociado a usuarioID.
-    ejemplo: get /piñera1/viajes?origen=creados
+GET:
+    descipcion: retorna los viajes creados por un conductor identificado
+                por usuarioID
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+    ejemplo: get /usuarios/piñera1/viajes
     resultado:
         {
             viajes: viajeDTO[]
         }
 
 ```
+```
+POST:
+    descipcion: crea un viaje
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+    ejemplo: post /usuarios/piñera1/viajes (incluir body del request)
+    body: viajeDTO - {id}
 
 ###### /{usuarioID/viajes/{viajeID}}
 ```
-get:
-    descipcion: retorna los datos de un viaje particular
+GET:
+    descipcion: retorna los datos de un viaje particular creado por 
+                el usuario identificado por usuarioID
     parametros: 
         usuarioID: ver Ruta /{usuarioID}
         viajeID: id del viaje al que se accedera
-    ejemplo: get /piñera1/viajes/1
+    ejemplo: get usuarios/piñera1/viajes/1
     resultado:
         {
             viaje: viajeDTO,
             paradas: paradaDTO[],
-            pasajeros: pasajeroDTO[],
-            conductor: conductorDTO
+            pasajeros: pasajeroDTO[]
         }
 ```
+```
+DELETE:
+    descipcion: elimina un viaje
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+    ejemplo: delete /usuarios/piñera1/viajes/1
+
+```
+###### /{usuarioID/viajes/{viajeID}/reservas}
+```
+GET:
+    descipcion: Retorna las reservas de un viaje particular creado por 
+                el usuario identificado con usuarioID
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+    ejemplo: get usuarios/piñera1/viajes/1/reservas
+    resultado:
+        {
+            viaje: viajeDTO,
+            reservas: reservaaDTO[]
+        }
+```
+
+###### /{usuarioID/viajes/{viajeID}/reservas/{reservaID}
+```
+GET:
+    descipcion: Retorna los datos de una reserva hecha a un viaje
+                creado por el usuario identificado con usuarioID
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+        reservaID: id de la reserva que se vera
+    ejemplo: get usuarios/piñera1/viajes/1/reservas
+    resultado:
+        {
+            viaje: viajeDTO,
+            paradas: paradaDTO[],
+            pasajeros: pasajeroDTO[]
+        }
+```
+
 
 ## Ruta /viajes
 
 ###### /
 ```
-get:
+GET:
     descripcion: retorna una lista de viajes
     parametros consulta:
         fechaminima: timestamp
@@ -146,12 +207,16 @@ get:
         destino: string
             descripcion: Ciurdad de destino por la que deben pasar o terminar los viajes en la lista.
     ejemplo:
-        /viajes?fechaminima=20-10-2018 00:00:00&fechamaxima=25-10-2018 16:00:00&origen=Concepcion&destino=roma
+        get /viajes?fechaminima=20-10-2018 00:00:00&fechamaxima=25-10-2018 16:00:00&origen=Concepcion&destino=roma
+    resultado:
+        {
+            viajes: viajeDTO[]
+        }
 ```
 
 ###### /{viajeID}}
 ```
-get:
+GET:
     descipcion: retorna los datos de un viaje particular
     parametros: 
         viajeID: id del viaje al que se accedera
@@ -163,4 +228,9 @@ get:
             pasajeros: pasajeroDTO[],
             conductor: conductorDTO
         }
+POST:
+    descripcion: pide reservar una o mas plazas en el viaje // se deben agregar cosas
+    parametros:
+        viajeID: id del viaje al que se pedira la reserva
+    body: reservaDTO - {id}
 ```
