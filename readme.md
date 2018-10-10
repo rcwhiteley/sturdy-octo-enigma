@@ -79,9 +79,9 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     conductor: string
 }
 ```
-## Ruta /usuarios/
+## Ruta /usuarios
 
-###### Ruta /{usuarioID}
+###### /{usuarioID}
 ```
 get:
     descripcion: Accede a un usuario por nombre o username
@@ -96,7 +96,7 @@ get:
     resultado: conductorDTO o pasajeroDTO
 ```
 
-###### Ruta /{usuarioID}/viajes
+###### /{usuarioID}/viajes
 ```
 get:
     descipcion: retorna los viajes creados y/o reservados por un usuario
@@ -107,13 +107,13 @@ get:
                         buscara los viajes reservados por el pasajero asociado a usuarioID.
     ejemplo: get /piñera1/viajes?origen=creados
     resultado:
-                {
-                    viajes: viajeDTO[]
-                }
+        {
+            viajes: viajeDTO[]
+        }
 
 ```
 
-###### Ruta /{usuarioID/viajes/{viajeID}}
+###### /{usuarioID/viajes/{viajeID}}
 ```
 get:
     descipcion: retorna los datos de un viaje particular
@@ -122,11 +122,45 @@ get:
         viajeID: id del viaje al que se accedera
     ejemplo: get /piñera1/viajes/1
     resultado:
-                {
-                    viaje: viajeDTO,
-                    paradas: paradaDTO[],
-                    pasajeros: pasajeroDTO[],
-                    conductor: conductorDTO
-                }
+        {
+            viaje: viajeDTO,
+            paradas: paradaDTO[],
+            pasajeros: pasajeroDTO[],
+            conductor: conductorDTO
+        }
+```
 
+## Ruta /viajes
+
+###### /
+```
+get:
+    descripcion: retorna una lista de viajes
+    parametros consulta:
+        fechaminima: timestamp
+            descripcion: Minimo de la fecha que puede tener un viaje en la lista
+        fechamaxima: timestamp
+            descripcion: Maximo de la fecha que puede tener un viaje en la lista
+        origen: string
+            descripcion: Ciudad de origen por la que deben comenzar o pasar los viajes en la lista.
+        destino: string
+            descripcion: Ciurdad de destino por la que deben pasar o terminar los viajes en la lista.
+    ejemplo:
+        /viajes?fechaminima=20-10-2018 00:00:00&fechamaxima=25-10-2018 16:00:00&origen=Concepcion&destino=roma
+```
+
+###### /{viajeID}}
+```
+get:
+    descipcion: retorna los datos de un viaje particular
+    parametros: 
+        viajeID: id del viaje al que se accedera
+    ejemplo: get /piñera1/viajes/1
+    resultado:
+        {
+            viaje: viajeDTO,
+            paradas: paradaDTO[],
+            pasajeros: pasajeroDTO[],
+            conductor: conductorDTO
+        }
 ```
