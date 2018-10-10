@@ -87,7 +87,6 @@ get:
 ```
 
 ###### Ruta /usuarios/{rut_usuario}/viajes
-```
 - get:
   - desciption: retorna los viajes creados y reservados por un usuario
     - query params:
@@ -96,5 +95,3 @@ get:
 						 si origen=reservados retornar los viajes reservados por el pasajero con id rut_usuario
   - ejemplo: get /usuarios/18670598-k/viajes?origen=creados
 	- resultado:
-
-```
