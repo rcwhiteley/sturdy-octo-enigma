@@ -79,20 +79,20 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 
 ###### Ruta /usuarios/{usuarioID}
 ```
-	get:
-		descripcion: retorna un pasajeroDTO o conductprDTO
-        parametros: 
-            usuarioID: username o nombre del usuario
-        parametros consulta: 
+get:
+	descripcion: retorna un pasajeroDTO o conductprDTO
+    parametros: 
+        usuarioID: username o nombre del usuario
+    parametros consulta: 
 ```
 
 ###### Ruta /usuarios/{rut_usuario}/viajes
 ```
-	get:
-		desciption: retorna los viajes creados y reservados por un usuario
-		query params:
-			origen: creados | reservados
-				description: Si origen=creados retornará los viajes creados por el chofer con id rut_usuario,
+get:
+	desciption: retorna los viajes creados y reservados por un usuario
+	query params:
+		origen: creados | reservados
+				descripcion: Si origen=creados retornará los viajes creados por el chofer con id rut_usuario,
 						 si origen=reservados retornar los viajes reservados por el pasajero con id rut_usuario
 		ejemplo: get /usuarios/18670598-k/viajes?origen=creados
 		resultado:
