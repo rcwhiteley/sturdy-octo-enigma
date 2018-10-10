@@ -2,13 +2,28 @@ const db = require('./connection');
 
 function createDTO (dbo) {
     return {
-        nombre: dbo.usuario,
-        //etc..
+        patente: dbo.patente,
+        maraca: dbo.marca,
+        modelo: dbo.modelo,
+        aptoSillaBebe: aptoparasilla,
+        dosPasajerosAtras: dosatras,
+        capacidadEquipaje: capequipaje,
+        numeroPlazas: numplazas,
+        conductor: conductor
+        
     }
 };
 
 function createDBO(dto){
     return {
-        usuario: dto.nombre
+        patente: dbo.patente,
+        maraca: dbo.marca,
+        modelo: dbo.modelo,
+        aptoparasilla: aptoSillaBebe,
+        dosatras: dosPasajerosAtras,
+        capequipaje: capacidadEquipaje,
+        numplazas: numeroPlazas,
+        conductor: conductor
+        
     }
 };

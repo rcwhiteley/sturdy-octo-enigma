@@ -15,17 +15,27 @@ router.get('/:usuario/:valoraciones', async(req, res)=>{
 
 });
 
-router.get('/:usuario', async(req, res)=>{
-	if(req.query.byname == 'true'){
-		console.log(req.params.usuario);
-    	let query = await db.usuarios.getUsuarioByName(req.params.usuario);
-    	res.send(query.rows);
+router.get('/:usuario', async (req, res)=>{
+    let isDriver = req.query.driver == 'true';
+    let byName = req.query.byname == 'true';
+    var result;
+	if(isDriver){ 
+        if(byName){
+            result = await db.usuarios.getConductorByName(req.params.usuario);
+            console.log(result);
+        }
+        else
+            result = db.usuarios.getConductorById(req.params.usuario);
 	}
 	else{
-    	console.log(req.params.usuario);
-    	let query = await db.usuarios.getUsuarioById(req.params.usuario);
-    	res.send(query.rows);
-	}
+    	var result;
+        if(byName)
+            result = db.usuarios.getUsuarioByName(req.params.usuario);
+        else
+            result = db.usuarios.getUsuarioById(req.params.usuario);
+    }
+    res.send(result);
 });
+
 
 module.exports = router;
