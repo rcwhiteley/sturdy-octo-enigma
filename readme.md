@@ -80,7 +80,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 ###### Ruta /usuarios/{usuarioID}
 ```
 get:
-	descripcion: retorna un pasajeroDTO o conductprDTO
+    descripcion: retorna un pasajeroDTO o conductprDTO
     parametros: 
         usuarioID: username o nombre del usuario
     parametros consulta: 
@@ -89,7 +89,7 @@ get:
 ###### Ruta /usuarios/{usuarioID}/viajes
 ```
 get:
-	desciption: retorna los viajes creados y reservados por un usuario
+	descipcion: retorna los viajes creados y reservados por un usuario
 	parametros consulta:
 		origen: creados | reservados
 				descripcion: Si origen=creados retornará los viajes creados por el conductor
