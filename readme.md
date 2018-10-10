@@ -2,7 +2,7 @@
 Todas las consultas estaran en la ruta: /api/v1/
 
 ## Formato
-###### ruta: ruta que se debe agregar anexar a la ruta especificada antes
+##### ruta: ruta que se debe agregar anexar a la ruta especificada antes
 
 ```
 {
@@ -19,7 +19,7 @@ Todas las consultas estaran en la ruta: /api/v1/
 
 ## Data Transfer Objects
 Los DTO usados son:
-###### pasajeroDTO:
+##### pasajeroDTO:
 ```
 {
 	nombre: string
@@ -31,7 +31,7 @@ Los DTO usados son:
 	valoracion: float
 }
 ```
-###### conductorDTO
+##### conductorDTO
 Todas las propiedades pasajeroDTO mas las siguientes propiedades 
 ```
 {
@@ -40,7 +40,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 	foto: url
 }
 ```
-###### paradaDTO
+##### paradaDTO
 ```
 {
     orden: integer,
@@ -53,7 +53,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 }
 ```
 
-###### viajeDTO
+##### viajeDTO
 ```
 {
     id: integer,
@@ -66,7 +66,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 }
 ```
 
-###### vehiculoDTO
+##### vehiculoDTO
 ```
 {
     patente: string,
@@ -80,7 +80,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 }
 ```
 
-###### reservaDTO
+##### reservaDTO
 ```
 {
     id: integer,
@@ -94,7 +94,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
 
 ## Ruta /usuarios
 
-###### /{usuarioID}
+##### /usuarios/{usuarioID}
 ```
 GET:
     descripcion: Accede a un usuario por nombre o username
@@ -109,7 +109,7 @@ GET:
     resultado: conductorDTO o pasajeroDTO
 ```
 
-###### /{usuarioID}/viajes
+##### /usuarios/{usuarioID}/viajes
 ```
 GET:
     descipcion: retorna los viajes creados por un conductor identificado
@@ -117,10 +117,7 @@ GET:
     parametros: 
         usuarioID: ver Ruta /{usuarioID}
     ejemplo: get /usuarios/piñera1/viajes
-    resultado:
-        {
-            viajes: viajeDTO[]
-        }
+    resultado: viajes: viajeDTO[]
 
 ```
 ```
@@ -131,7 +128,7 @@ POST:
     ejemplo: post /usuarios/piñera1/viajes (incluir body del request)
     body: viajeDTO - {id}
 ```
-###### /{usuarioID/viajes/{viajeID}}
+###¿### /usuarios/{usuarioID/viajes/{viajeID}}
 ```
 GET:
     descipcion: retorna los datos de un viaje particular creado por 
@@ -156,7 +153,7 @@ DELETE:
     ejemplo: delete /usuarios/piñera1/viajes/1
 
 ```
-###### /{usuarioID/viajes/{viajeID}/reservas}
+##### /usuarios/{usuarioID/viajes/{viajeID}/reservas}
 ```
 GET:
     descipcion: Retorna las reservas de un viaje particular creado por 
@@ -172,7 +169,7 @@ GET:
         }
 ```
 
-###### /{usuarioID/viajes/{viajeID}/reservas/{reservaID}
+##### /usuarios/{usuarioID/viajes/{viajeID}/reservas/{reservaID}
 ```
 GET:
     descipcion: Retorna los datos de una reserva hecha a un viaje
@@ -193,7 +190,7 @@ GET:
 
 ## Ruta /viajes
 
-###### /
+##### /viajes
 ```
 GET:
     descripcion: retorna una lista de viajes
@@ -208,13 +205,10 @@ GET:
             descripcion: Ciurdad de destino por la que deben pasar o terminar los viajes en la lista.
     ejemplo:
         get /viajes?fechaminima=20-10-2018 00:00:00&fechamaxima=25-10-2018 16:00:00&origen=Concepcion&destino=roma
-    resultado:
-        {
-            viajes: viajeDTO[]
-        }
+    resultado: viajesDTO[]
 ```
 
-###### /{viajeID}}
+##### /viajes/{viajeID}}
 ```
 GET:
     descipcion: retorna los datos de un viaje particular
@@ -234,3 +228,5 @@ POST:
         viajeID: id del viaje al que se pedira la reserva
     body: reservaDTO - {id}
 ```
+
+##### /viajes/{viajeID}/reservas/
