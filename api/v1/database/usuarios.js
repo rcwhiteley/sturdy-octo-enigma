@@ -1,6 +1,6 @@
 const db = require('./connection');
 
-function createUsuarioDTO (dbo) {
+function createPasajeroDTO (dbo) {
     return {
         nombre: dbo.nombre,
         apellido: dbo.apellido,
@@ -12,7 +12,7 @@ function createUsuarioDTO (dbo) {
     };
 }
 
-function createUsuarioDBO(dto){
+function createPasajeroDBO(dto){
     return {
         nombre: dto.nombre,
         apellido: dto.apellido,
@@ -20,7 +20,7 @@ function createUsuarioDBO(dto){
         mail: dto.mail,
         celular: dto.celular,
         rut: dto.rut,
-        //valoracion: dto.valoracion,
+        valoracion: dto.valoracion,
     };
 }
 
@@ -41,16 +41,18 @@ function createConductorDTO(dbo){
     return dto;
 }
 
-exports.getUsuarioByName = async (nombre) => {
-    let query = await db.query('select * from pasajero where nombre = $1', [nombre]);
-    let res = query.rows;
-    return res.map(createUsuarioDTO);
+exports.getUsuarioByName = (nombre) => {
+    return  db.query('select * from pasajero where nombre = $1', [nombre])
+    .then(res=>{
+        return res.rows.map(createPasajeroDTO);
+    });
 };
 
-exports.getUsuarioById = async (id) => {
-    let query = await db.query('select * from pasajero where rut = $1', [id]);
-    let res = query.rows;
-    return res.map(createUsuarioDTO);
+exports.getUsuarioById = (id) => {
+    return  db.query('select * from pasajero where username = $1', [id])
+    .then(res=>{
+        return res.rows.map(createPasajeroDTO);
+    });
 };
 
 exports.getConductorByName = (nombre) => {
@@ -60,8 +62,9 @@ exports.getConductorByName = (nombre) => {
     });
 };
 
-exports.getConductorById = async (id) => {
-    let query = await db.query('select * from pasajero, conductor where rut = $1', [id]);
-    let res = query.rows;
-    return res.map(createConductorDTO);
+exports.getConductorById = (id) => {
+    return db.query('select * from pasajero, conductor where username = $1', [id])
+    .then(res =>{
+        return res.rows.map(createConductorDTO)
+    });
 };

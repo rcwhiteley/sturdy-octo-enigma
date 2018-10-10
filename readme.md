@@ -128,7 +128,7 @@ POST:
     ejemplo: post /usuarios/piñera1/viajes (incluir body del request)
     body: viajeDTO - {id}
 ```
-###¿### /usuarios/{usuarioID/viajes/{viajeID}}
+##### /usuarios/{usuarioID/viajes/{viajeID}}
 ```
 GET:
     descipcion: retorna los datos de un viaje particular creado por 
@@ -145,17 +145,20 @@ GET:
         }
 ```
 ```
-DELETE:
+DELETE: // autorizacion necesaria
     descipcion: elimina un viaje
     parametros: 
         usuarioID: ver Ruta /{usuarioID}
         viajeID: id del viaje al que se accedera
     ejemplo: delete /usuarios/piñera1/viajes/1
-
 ```
+```
+PUT: //por hacer, actualiza el viaje
+```
+
 ##### /usuarios/{usuarioID/viajes/{viajeID}/reservas}
 ```
-GET:
+GET:  // autorizacion necesaria
     descipcion: Retorna las reservas de un viaje particular creado por 
                 el usuario identificado con usuarioID
     parametros: 
@@ -171,22 +174,59 @@ GET:
 
 ##### /usuarios/{usuarioID/viajes/{viajeID}/reservas/{reservaID}
 ```
-GET:
+GET:  // autorizacion necesaria
     descipcion: Retorna los datos de una reserva hecha a un viaje
                 creado por el usuario identificado con usuarioID
     parametros: 
         usuarioID: ver Ruta /{usuarioID}
         viajeID: id del viaje al que se accedera
         reservaID: id de la reserva que se vera
-    ejemplo: get usuarios/piñera1/viajes/1/reservas
-    resultado:
-        {
-            viaje: viajeDTO,
-            paradas: paradaDTO[],
-            pasajeros: pasajeroDTO[]
-        }
+    ejemplo: get usuarios/piñera1/viajes/1/reservas/23
+    resultado: reservaDTO
+```
+```
+POST: // autorizacion necesaria
+    descipcion: Cambia el estado de una peticion de reserva
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+        reservaID: id de la reserva que se rechazara
+    ejemplo: post usuarios/piñera1/viajes/1/reservas/23
+    body: propiedades a cambiar en un reservaDTO
+    
+```
+```
+DELETE: // autorizacion necesaria
+    descipcion: Rechaza una peticion de reserva
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+        reservaID: id de la reserva que se rechazara
+    ejemplo: delete usuarios/piñera1/viajes/1/reservas/23
+    
 ```
 
+##### /usuarios/{usuarioID/reservas/
+```
+GET:  // autorizacion necesaria
+    descipcion: Retorna una lista con las reservas solicitadas
+                por el usuario identificado con usuarioID
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+    ejemplo: get usuarios/piñera1/reservas
+    resultado: reservaDTO[]
+```
+
+##### /usuarios/{usuarioID/reservas/{reservaID}
+
+DELETE: // autorizacion necesaria
+    descipcion: cancela una peticion de reserva
+    parametros: 
+        usuarioID: ver Ruta /{usuarioID}
+        viajeID: id del viaje al que se accedera
+        reservaID: id de la reserva que se rechazara
+    ejemplo: delete usuarios/piñera1/viajes/1/reservas/23
+```
 
 ## Ruta /viajes
 
@@ -208,7 +248,7 @@ GET:
     resultado: viajesDTO[]
 ```
 
-##### /viajes/{viajeID}}
+##### /viajes/{viajeID}
 ```
 GET:
     descipcion: retorna los datos de un viaje particular
@@ -222,6 +262,8 @@ GET:
             pasajeros: pasajeroDTO[],
             conductor: conductorDTO
         }
+##### /viajes/{viajeID}/reservas
+
 POST:
     descripcion: pide reservar una o mas plazas en el viaje // se deben agregar cosas
     parametros:
