@@ -218,7 +218,7 @@ GET:  // autorizacion necesaria
 ```
 
 ##### /usuarios/{usuarioID/reservas/{reservaID}
-
+```
 DELETE: // autorizacion necesaria
     descipcion: cancela una peticion de reserva
     parametros: 
@@ -262,13 +262,12 @@ GET:
             pasajeros: pasajeroDTO[],
             conductor: conductorDTO
         }
+```
 ##### /viajes/{viajeID}/reservas
-
+```
 POST:
     descripcion: pide reservar una o mas plazas en el viaje // se deben agregar cosas
     parametros:
         viajeID: id del viaje al que se pedira la reserva
     body: reservaDTO - {id}
 ```
-
-##### /viajes/{viajeID}/reservas/
