@@ -16,7 +16,7 @@ Todas las consultas estaran en la ruta: /api/v1/
 ## DTO
 Las DTO usadas son:
 ###### pasajeroDTO:
-**
+```
 {
 	nombre: string
 	apellido: string
@@ -26,18 +26,18 @@ Las DTO usadas son:
 	rut: string
 	valoracion: float
 }
-**
+```
 ###### conductorDTO
 Todas las propiedades pasajeroDTO mas las siguientes propiedades 
-**
+```
 {
 	fechaLicencia: string
 	claseLicencia: string
 	foto: url
 }
-**
+```
 ###### paradaDTO
-**
+```
 {
     orden: integer,
     viaje: integer,
@@ -47,10 +47,10 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     direccion: string,
     carga: int
 }
-**
+```
 
 ###### viajeDTO
-**
+```
 {
     id: integer,
     patente: string,
@@ -60,10 +60,10 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     equipajeMaximo: integer
     paradas: paradaDTO[]
 }
-**
+```
 
 ###### vehiculoDTO
-**
+```
 {
     patente: string,
     maraca: string,
@@ -74,7 +74,7 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     numeroPlazas: integer,
     conductor: string
 }
-**
+```
 ## Ruta /usuarios/
 
 ###### Ruta /usuarios/{usuarioID}
