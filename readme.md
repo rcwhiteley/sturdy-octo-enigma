@@ -89,13 +89,13 @@ get:
 ###### Ruta /usuarios/{usuarioID}/viajes
 ```
 get:
-	descipcion: retorna los viajes creados y reservados por un usuario
-	parametros consulta:
-		origen: creados | reservados
-				descripcion: Si origen=creados retornará los viajes creados por el conductor
-                            con nombre o username igual a usuarioID, en caso contrario se 
-                            buscara los viajes reservados por el pasajero asociado a usuarioID.
-		ejemplo: get /usuarios/18670598-k/viajes?origen=creados
-		resultado:
+    descipcion: retorna los viajes creados y reservados por un usuario
+    parametros consulta:
+        origen: creados | reservados
+            descripcion: Si origen=creados retornará los viajes creados por el conductor
+                        con nombre o username igual a usuarioID, en caso contrario se 
+                        buscara los viajes reservados por el pasajero asociado a usuarioID.
+    ejemplo: get /usuarios/18670598-k/viajes?origen=creados
+    resultado:
 
 ```
