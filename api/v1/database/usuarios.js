@@ -25,7 +25,7 @@ function createPasajeroDBO(dto){
 }
 
 function createConductorDBO(dto){
-    let dbo = createUsuarioDBO(dto);
+    let dbo = createPasajeroDBO(dto);
     dbo.fechalicencia = dto.fechaLicencia;
     dbo.claselicencia = dto.claseLicencia;
     dbo.tienefoto = dto.tieneFoto;
@@ -34,7 +34,7 @@ function createConductorDBO(dto){
 };
 
 function createConductorDTO(dbo){
-    let dto = createUsuarioDTO(dbo);
+    let dto = createPasajeroDTO(dbo);
     dto.fechaLicencia = dbo.fechalicencia;
     dto.claseLicencia = dbo.claselicencia;
     dto.foto = dbo.tienefoto;
