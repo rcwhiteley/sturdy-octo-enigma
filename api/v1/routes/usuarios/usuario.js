@@ -24,14 +24,14 @@ router.get('/:usuario', async (req, res)=>{
             console.log(result);
         }
         else
-            result = db.usuarios.getConductorById(req.params.usuario);
+            result = await db.usuarios.getConductorById(req.params.usuario);
 	}
 	else{
     	var result;
         if(byName)
-            result = db.usuarios.getUsuarioByName(req.params.usuario);
+            result = await db.usuarios.getUsuarioByName(req.params.usuario);
         else
-            result = db.usuarios.getUsuarioById(req.params.usuario);
+            result = await db.usuarios.getUsuarioById(req.params.usuario);
     }
     res.send(result);
 });

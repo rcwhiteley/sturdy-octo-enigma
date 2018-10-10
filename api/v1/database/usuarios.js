@@ -37,7 +37,7 @@ function createConductorDTO(dbo){
     let dto = createPasajeroDTO(dbo);
     dto.fechaLicencia = dbo.fechalicencia;
     dto.claseLicencia = dbo.claselicencia;
-    dto.foto = dbo.tienefoto;
+    dto.tieneFoto = dbo.tienefoto;
     return dto;
 }
 
@@ -63,7 +63,7 @@ exports.getConductorByName = (nombre) => {
 };
 
 exports.getConductorById = (id) => {
-    return db.query('select * from pasajero, conductor where username = $1', [id])
+    return db.query('select * from pasajero, conductor where pasajero.username = $1', [id])
     .then(res =>{
         return res.rows.map(createConductorDTO)
     });
