@@ -1,16 +1,15 @@
-// Ruta /api/v1/usuarios/viajes
+// Ruta /api/v1/usuarios/
 
 const express = require('express');
 const router = express.Router();
 const viajes = require('./viajes');
+const reservas = require('./reservas');
 const db = require('../../database/database');
 
-router.use('/viajes', viajes);
+router.use('/:usuario/viajes', viajes);
+router.use('/:usuario/reservas', reservas);
 
-router.get('/:usuario/:viajes', async(req, res)=>{
-
-});
-
+//por hacer
 router.get('/:usuario/:valoraciones', async(req, res)=>{
 
 });

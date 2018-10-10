@@ -111,7 +111,7 @@ GET:
 
 ##### /usuarios/{usuarioID}/viajes
 ```
-GET:
+GET:    
     descipcion: retorna los viajes creados por un conductor identificado
                 por usuarioID
     parametros: 
@@ -185,7 +185,7 @@ GET:  // autorizacion necesaria
     resultado: reservaDTO
 ```
 ```
-POST: // autorizacion necesaria
+PUT: // autorizacion necesaria
     descipcion: Cambia el estado de una peticion de reserva
     parametros: 
         usuarioID: ver Ruta /{usuarioID}

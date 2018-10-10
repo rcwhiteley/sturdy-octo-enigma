@@ -5,11 +5,6 @@ const router = express.Router();
 
 /**
  * Obtiene una lista de viajes segun su origen, destino y fechas
- * resultado:
- * {
- *  viajes: viajesDTO[]
- *  valoracion: valoracionTotal
- * }
  */
 router.get('/', (req, res)=>{
     let plazasRequeridas = req.query.plazas;
@@ -23,7 +18,10 @@ router.get('/', (req, res)=>{
     fechaViaje + " - " + horaParada + " - " + origen + " - " + destino + " - " + equipaje);
 });
 
-router.get('/:viaje', async (req, res)=>{
+/**
+ * obtiene los datos de un viaje particular
+ */
+router.get('/:viajeID', async (req, res)=>{
     
 });
 
