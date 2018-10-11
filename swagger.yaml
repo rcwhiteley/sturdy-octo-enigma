@@ -158,7 +158,7 @@ parameters:
     name: pasajero
     in: path
     required: true
-    description: Nombre de la cuenta del pasajero ak que se desea acceder
+    description: Nombre de la cuenta del pasajero al que se desea acceder
     type: string     
 
 definitions:
