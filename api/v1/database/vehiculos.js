@@ -1,15 +1,15 @@
 const db = require('./connection');
 
-function createDTO (dbo) {
+exports.createDTO =  (dbo)=> {
     return {
         patente: dbo.patente,
         maraca: dbo.marca,
         modelo: dbo.modelo,
-        aptoSillaBebe: aptoparasilla,
-        dosPasajerosAtras: dosatras,
-        capacidadEquipaje: capequipaje,
-        numeroPlazas: numplazas,
-        conductor: conductor
+        aptoSillaBebe: dbo.aptoparasilla,
+        dosPasajerosAtras: dbo.dosatras,
+        capacidadEquipaje: dbo.capequipaje,
+        numeroPlazas: dbo.numplazas,
+        conductor: dbo.conductor
         
     }
 };

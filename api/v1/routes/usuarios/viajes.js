@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const db = require('../../database/database');
 
 module.exports = router;
 
@@ -9,14 +10,15 @@ module.exports = router;
  * retorna los viajes creados por el conductor
  */
 router.get('/', async(req, res)=>{
-
+    console.log("hola!" + req.usuario);
+    let result = await db.viajes.getViajesCreadosByUsername(req.usuario);
+    res.send(result);
 });
 
 /** 
  * crea un viaje
  */
 router.post('/', async(req, res)=>{
-
 });
 
 /**

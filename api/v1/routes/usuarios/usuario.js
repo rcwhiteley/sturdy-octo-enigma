@@ -6,7 +6,10 @@ const viajes = require('./viajes');
 const reservas = require('./reservas');
 const db = require('../../database/database');
 
-router.use('/:usuario/viajes', viajes);
+router.use('/:usuario/viajes', function(req, res, next) {
+    req.usuario = req.params.usuario;
+    next()
+  }, viajes);
 router.use('/:usuario/reservas', reservas);
 
 //por hacer

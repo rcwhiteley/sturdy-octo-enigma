@@ -1,5 +1,5 @@
 const db = require('./connection');
-
+const vehiculos = require('./vehiculos');
 function createDTO (dbo) {
     return {
         id: dbo.id,
@@ -7,7 +7,8 @@ function createDTO (dbo) {
         origen: dbo.origen,
         destino: dbo.destino,
         fecha: dbo.fecha,
-        equipajeMaximo: dbo.equipajemax
+        equipajeMaximo: dbo.equipajemax,
+        vehiculo: vehiculos.createDTO(dbo)
     }
 };
 
@@ -20,4 +21,17 @@ function createDBO(dto){
         fecha: dbo.fecha,
         equipajemax: dbo.equipajeMaximo
     }
+};
+
+/**
+ * todo: agregar pasajeros y weas 
+ */
+exports.getViajesCreadosByUsername = (conductor) => {
+    console.log("omh " + conductor);
+    return  db.query(
+        `SELECT * FROM viaje as vj,vehiculo as vh 
+        WHERE vh.conductor = $1 and vj.patente = vh.patente`, [conductor])
+    .then(res=>{
+        return res.rows.map(createDTO);
+    });
 };

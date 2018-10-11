@@ -62,7 +62,8 @@ Todas las propiedades pasajeroDTO mas las siguientes propiedades
     destino: string,
     fecha: timestamp,
     equipajeMaximo: integer,
-    paradas: paradaDTO[]
+    paradas: paradaDTO[],
+    vehiculo: vehiculoDTO,
 }
 ```
 
@@ -117,7 +118,7 @@ GET:
     parametros: 
         usuarioID: ver Ruta /{usuarioID}
     ejemplo: get /usuarios/piñera1/viajes
-    resultado: viajes: viajeDTO[]
+    resultado: viajeDTO[]
 
 ```
 ```
