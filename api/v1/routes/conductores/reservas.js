@@ -8,8 +8,8 @@ const db = require('../../database/database');
  * retorna las reservas hechas por usuarioID
  */
 router.get('/', async(req, res)=>{
-    console.log(req.pasajero);
-    let result = await db.reservas.getReservasPasajero(req.pasajero);
+    console.log(req.conductor);
+    let result = await db.reservas.getAllReservasAConductor(req.pasajero);
     res.send(result);
 });
 
@@ -17,13 +17,7 @@ router.get('/', async(req, res)=>{
  * cancela una reserva solicitada por el usuarioID
  */
 router.delete('/:reservaID', async(req, res)=>{
-    let result = await db.reservas.borrarReservaDePasajero(req.pasajero, req.params.reservaID);
-    if(res.rowCount > 0){
-        res.sendStatus(200);
-    }
-    else{
-        res.sendStatus(204);
-    }
+    
 });
 
 module.exports = router;

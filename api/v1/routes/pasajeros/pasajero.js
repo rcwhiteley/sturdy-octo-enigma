@@ -5,7 +5,10 @@ const router = express.Router();
 const reservas = require('./reservas');
 const db = require('../../database/database');
 
-router.use('/:pasajero/reservas', reservas);
+router.use('/:pasajero/reservas', function(req, res, next) {
+    req.pasajero = req.params.pasajero;
+    next()
+  }, reservas);
 
 //por hacer
 router.get('/:pasajero/:valoraciones', async(req, res)=>{

@@ -34,6 +34,41 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
+  /pasajeros/{pasajero}/reservas:
+    get:
+      tags:
+        - pasajeros
+      operationId: ReservasPasajero
+      summary: Obtiene todas las reservas que ha hecho el pasajero
+      parameters:
+        - $ref: '#/parameters/pasajeroUsernameParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/reservaDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
+  /pasajeros/{pasajero}/reservas/{reservaID}:
+    delete:
+      tags:
+        - pasajeros
+      operationId: DeleteReservaPasajero
+      summary: Eliminia una reserva del pasajero
+      parameters:
+        - $ref: '#/parameters/pasajeroUsernameParam'
+        - $ref: '#/parameters/reservaIdParam'
+      responses:
+        '200':
+          description: OK, la reserva se borro correctamente
+        '204':
+          description: No se borraron datos
+      security:
+        - keystone: []
   /conductores/{conductor}:
     get:
       tags:
@@ -87,6 +122,13 @@ tags:
   description: ruta /api/v1/viajes
 
 parameters:
+  reservaIdParam:
+    name: reservaID
+    in: path
+    required: true
+    description: id de la reserva que se desea borrar 
+    type: integer
+ 
   byNameParam:
     name: byname
     in: query
@@ -203,3 +245,23 @@ definitions:
       vehiculo:
         $ref: '#/definitions/vehiculoDTO'
         description: Vehiculo en el que se viajara
+  reservaDTO:
+    properties:
+      id:
+        type: integer
+        description: identificador unico de la reserva
+      pasajero:
+        type: string
+        description: Nombre de la cuenta del pasajero
+      idViaje:
+        type: integer
+        description: id del viaje al que se le hizo la reserva
+      origen:
+        type: string
+        description: Ciudad en donde el pasajero se subira al viaje
+      destino:
+        type: string
+        description: Ciudad en donde se bajara el pasajero
+      estado: 
+        type: integer
+        description: estado en el que se encuentra la solicitud de la reserva

@@ -9,5 +9,4 @@ const conductores = require('./conductores/conductor');
 router.use('/pasajeros', pasajeros);
 router.use('/viajes', viajes);
 router.use('/conductores', conductores)
-
 module.exports = router;
