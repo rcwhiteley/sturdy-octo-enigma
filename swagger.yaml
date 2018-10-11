@@ -12,12 +12,14 @@ securityDefinitions:
     type: apiKey
     in: header
     name: x-auth-token
-
+basePath: /api/v1
 security: []
 
 paths:
-  /api/v1/pasajeros/{pasajero}:
+  /pasajeros/{pasajero}:
     get:
+      tags:
+        - pasajeros
       operationId: InformacionPasajero
       summary: Obtiene la informacion de un pasajero
       parameters:
@@ -32,8 +34,10 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
-  /api/v1/conductores/{conductor}:
+  /conductores/{conductor}:
     get:
+      tags:
+        - conductores
       operationId: InformacionConductor
       summary: Obtiene la informacion de un conductor
       parameters:
@@ -50,8 +54,10 @@ paths:
       security:
         - keystone: []
       
-  /api/v1/conductores/{conductor}/viajes:
+  /conductores/{conductor}/viajes:
     get:
+      tags:
+        - conductores
       operationId: listaViajesCreados
       summary: Obtiene una lista con los viajes creados por el conductor
       parameters:
@@ -70,6 +76,15 @@ paths:
       security:
         - keystone: []
       
+tags:
+- name: conductores
+  description: ruta /api/v1/conductores
+
+- name: pasajeros
+  description: ruta /api/v1/pasajeros
+
+- name: viajes
+  description: ruta /api/v1/viajes
 
 parameters:
   byNameParam:
