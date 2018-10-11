@@ -21,7 +21,11 @@ router.get('/:conductor', async (req, res)=>{
         result = await db.usuarios.getConductorByName(req.params.conductor);
     else
         result = await db.usuarios.getConductorById(req.params.conductor);
-    
-    res.send(result);
+    if(result.length > 0){
+        res.send(result[0]);
+    }
+    else{
+        res.sendStatus(204);
+    }
 });
 module.exports = router;

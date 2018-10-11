@@ -19,8 +19,12 @@ router.get('/:pasajero', async (req, res)=>{
         result = await db.usuarios.getUsuarioByName(req.params.pasajero);
     else
         result = await db.usuarios.getUsuarioById(req.params.pasajero);
-    
-    res.send(result);
+        if(result.length > 0){
+            res.send(result[0]);
+        }
+        else{
+            res.sendStatus(204);
+        }
 });
 
 

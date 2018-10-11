@@ -28,6 +28,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/pasajeroDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
   /api/v1/conductores/{conductor}:
@@ -42,6 +44,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/conductorDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      
       security:
         - keystone: []
       
@@ -59,6 +64,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/viajeDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
       
