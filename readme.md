@@ -196,16 +196,6 @@ PUT: // autorizacion necesaria
     body: propiedades a cambiar en un reservaDTO
     
 ```
-```
-DELETE: // autorizacion necesaria
-    descipcion: Rechaza una peticion de reserva
-    parametros: 
-        usuarioID: ver Ruta /{usuarioID}
-        viajeID: id del viaje al que se accedera
-        reservaID: id de la reserva que se rechazara
-    ejemplo: delete usuarios/piñera1/viajes/1/reservas/23
-    
-```
 
 ##### /usuarios/{usuarioID/reservas/
 ```

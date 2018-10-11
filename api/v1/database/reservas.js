@@ -20,3 +20,6 @@ function createDBO(dto){
     }
 };
 
+exports.cambiarEstadoReserva = ()=>{
+
+};

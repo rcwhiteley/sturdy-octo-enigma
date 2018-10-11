@@ -1,0 +1,169 @@
+info:
+  title: TeLleo API
+  version: 1.0.0
+consumes:
+  - application/json
+produces:
+  - application/json
+swagger: '2.0'
+securityDefinitions:
+  keystone:
+    description: OpenStack Keystone Authentication
+    type: apiKey
+    in: header
+    name: x-auth-token
+
+security: []
+
+paths:
+  /api/v1/pasajeros/{pasajero}:
+    get:
+      operationId: InformacionPasajero
+      summary: Obtiene la informacion de un pasajero
+      parameters:
+        - $ref: '#/parameters/pasajeroParam'
+        - $ref: '#/parameters/byNameParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/pasajeroDTO'
+      security:
+        - keystone: []
+  /api/v1/conductores/{conductor}:
+    get:
+      operationId: InformacionConductor
+      summary: Obtiene la informacion de un conductor
+      parameters:
+        - $ref: '#/parameters/conductorParam'
+        - $ref: '#/parameters/byNameParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/conductorDTO'
+      security:
+        - keystone: []
+      
+  /api/v1/conductores/{conductor}/viajes:
+    get:
+      operationId: listaViajesCreados
+      summary: Obtiene una lista con los viajes creados por el conductor
+      parameters:
+        - $ref: '#/parameters/conductorParam'
+        - $ref: '#/parameters/byNameParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/viajeDTO'
+      security:
+        - keystone: []
+      
+
+parameters:
+  byNameParam:
+    name: byname
+    in: query
+    required: false
+    description: true si se desea buscar por nombre del usuario, false si desdea buscar por el nombre de la cuenta del usuario
+    type: boolean
+    default: false
+  conductorParam:
+    name: conductor
+    in: path
+    required: true
+    description: Nombre de la cuenta o del conductor de quien se quieren consultar los datos
+    type: string
+  pasajeroParam:
+    name: pasajero
+    in: path
+    required: true
+    description: Nombre de la cuenta o del pasajero de quien se quieren consultar los datos
+    type: string     
+definitions:
+  pasajeroDTO:
+    description: Objeto para transferir los datos de un pasajero
+    properties:
+      nombre:
+        description: Nombre del usuario
+        type: string
+      apellido: 
+        description: Apellidos del usuario
+        type: string
+      username: 
+        description: Nombre de la cuenta del usuario
+        type: string
+      mail: 
+        description: Correo electronico del usuario
+        type: string
+      rut: 
+        description: RUT del usuario
+        type: string
+      celular:
+        description: Numero de celular del usuario
+        type: string
+  conductorDTO:
+    description: Objeto para transferir los datos de un conductor
+    allOf:
+      - $ref: '#/definitions/pasajeroDTO'
+      - properties: 
+          fechaLicencia:
+            description: Fecha de vencimiento de la licencia? 
+            type: dateTime
+          claseLicencia:
+            description: Tipo de licencia del conductor
+            type: string
+          tieneFoto:
+            description: True si el conductor ha subido una foto de el, false en caso contrario
+            type: boolean
+  vehiculoDTO:
+    description: Objeto para transferir los datos de un vehiculo
+    properties:
+      patente:
+        description: Patente del vehiculo
+        type: string
+      marca:
+        description: Marca del vehiculo
+        type: string
+      modelo:
+        description: Modelo del vehiculo
+        type: string
+      aptoSillaBebe:
+        type: boolean 
+        description: true si el vehiculo tiene soporte para sillas de bebe
+      dosPasajerosAtras:
+        type: boolean
+        description: true si en el vehiculo solo se llevaran 2 pasajeros atras como maximo
+      capacidadEquipaje:
+        type: integer
+        description: Cantidad maxima de maletas que soporta el vehiculo
+      numeroPlazas:
+        type: integer
+        description: Cantidad de asientes que tiene el vehiculo
+      conductor:
+        type: string
+        description: Nombre de la cuenta del dueño del vehiculo
+  viajeDTO:
+    description: Objeto para transferir los datos de un viaje
+    properties:
+      id:
+        type: integer
+        description: Identificador unico del viaje
+      origen: 
+        type: string
+        description: Ciudad de origen del viaje
+      destino:
+        type: string
+        description: Ciudade de destino del viaje
+      fecha: 
+        type: dateTime
+        description: Fecha de inicio del viaje
+      equipajeMaximo: 
+        type: integer
+        description: Maximo de maletas que soporta el vehiculo
+      vehiculo:
+        $ref: '#/definitions/vehiculoDTO'
+        description: Vehiculo en el que se viajara

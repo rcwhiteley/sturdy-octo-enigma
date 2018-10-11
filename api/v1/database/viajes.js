@@ -3,7 +3,6 @@ const vehiculos = require('./vehiculos');
 function createDTO (dbo) {
     return {
         id: dbo.id,
-        patente: dbo.patente,
         origen: dbo.origen,
         destino: dbo.destino,
         fecha: dbo.fecha,
@@ -15,7 +14,6 @@ function createDTO (dbo) {
 function createDBO(dto){
     return {
         id: dbo.id,
-        patente: dbo.patente,
         origen: dbo.origen,
         destino: dbo.destino,
         fecha: dbo.fecha,

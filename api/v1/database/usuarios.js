@@ -4,7 +4,7 @@ function createPasajeroDTO (dbo) {
     return {
         nombre: dbo.nombre,
         apellido: dbo.apellido,
-        nombreUsuario: dbo.username,
+        username: dbo.username,
         mail: dbo.mail,
         celular: dbo.celular,
         rut: dbo.rut,
@@ -16,10 +16,10 @@ function createPasajeroDBO(dto){
     return {
         nombre: dto.nombre,
         apellido: dto.apellido,
-        nombreUsuario: dto.username,
+        username: dto.username,
         mail: dto.mail,
-        celular: dto.celular,
         rut: dto.rut,
+        celular: dto.celular,
         valoracion: dto.valoracion,
     };
 }
