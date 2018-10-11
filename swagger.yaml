@@ -55,8 +55,9 @@ paths:
       operationId: listaViajesCreados
       summary: Obtiene una lista con los viajes creados por el conductor
       parameters:
-        - $ref: '#/parameters/conductorParam'
-        - $ref: '#/parameters/byNameParam'
+        - $ref: '#/parameters/conductorUsernameParam'
+          description: Nombre de la cuenta del conductor
+       ## - $ref: '#/parameters/byNameParam' ## aun no soportado
       responses:
         '200':
           description: OK
@@ -90,6 +91,19 @@ parameters:
     required: true
     description: Nombre de la cuenta o del pasajero de quien se quieren consultar los datos
     type: string     
+  conductorUsernameParam:
+    name: conductor
+    in: path
+    required: true
+    description: Nombre de la cuenta de quien se quieren consultar los datos
+    type: string
+  pasajeroUsernameParam:
+    name: pasajero
+    in: path
+    required: true
+    description: Nombre de la cuenta de quien se quieren consultar los datos
+    type: string     
+
 definitions:
   pasajeroDTO:
     description: Objeto para transferir los datos de un pasajero
