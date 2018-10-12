@@ -28,7 +28,7 @@ router.get('/', async(req, res)=>{
         res.status(400).send(JSON.stringify({message:'paramero destino no encontrado'}));
     }
     else{
-        let result = await db.viajes.getViajes(req.query.origen, req.query.destino, req.query.fechaminima, req.query.fechamaxima);
+        let result = await db.viajes.listViajesQuePasanPor(req.query.origen, req.query.destino, req.query.fechaminima, req.query.fechamaxima);
         res.send(result);
     }
 });

@@ -85,10 +85,8 @@ paths:
             $ref: '#/definitions/conductorDTO'
         '204':
           description: No se retornaron datos, es probable que no exista en la base de datos
-      
       security:
         - keystone: []
-      
   /conductores/{conductor}/viajes:
     get:
       tags:
@@ -97,8 +95,6 @@ paths:
       summary: Obtiene una lista con los viajes creados por el conductor
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
-          description: Nombre de la cuenta del conductor
-       ## - $ref: '#/parameters/byNameParam' ## aun no soportado
       responses:
         '200':
           description: OK
@@ -110,7 +106,36 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
-      
+  /viajes:
+    get:
+      tags:
+        - viajes
+      operationId: listaViajes
+      summary: Obtine una lista con los viajes que pasan por dos ciudades entre un rango de fechas 
+      parameters:
+        - $ref: '#/parameters/ciudadOrigenParam'
+        - $ref: '#/parameters/ciudadDestinoParam'
+        - $ref: '#/parameters/fechaMinimaParam'
+        - $ref: '#/parameters/fechaMaximaParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/viajeDTO'
+        description: No se retornaron datos, es probable que no exista en la base de datos
+        '400':
+          description: Faltan parametros en la consulta o tienen el nombre equivocado
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                descriptiom: Descripcion del error
+
+      security:
+        - keystone: []
 tags:
 - name: conductores
   description: ruta /api/v1/conductores
@@ -128,7 +153,33 @@ parameters:
     required: true
     description: id de la reserva que se desea borrar 
     type: integer
- 
+  ciudadOrigenParam:
+    in: query
+    name: origen
+    required: true
+    description: Ciudad en donde desea buscar el viaje
+    type: string
+  ciudadDestinoParam:
+    in: query
+    name: destino
+    required: true
+    description: Ciudad a la que desea que el viaje llegue o pase por
+    type: string
+  fechaMinimaParam:
+    in: query
+    name: fechaminima
+    required: true
+    description: Fecha minima que tendran los viajes retornados
+    type: string
+    format: date-time
+    
+  fechaMaximaParam:
+    in: query
+    name: fechamaxima
+    required: true
+    description: Fecha maxima que tendran los viajes retornados
+    type: string
+    format: date-time
   byNameParam:
     name: byname
     in: query
@@ -190,7 +241,8 @@ definitions:
       - properties: 
           fechaLicencia:
             description: Fecha de vencimiento de la licencia? 
-            type: dateTime
+            type: string
+            format: date-time
           claseLicencia:
             description: Tipo de licencia del conductor
             type: string
@@ -225,7 +277,7 @@ definitions:
         type: string
         description: Nombre de la cuenta del dueño del vehiculo
   viajeDTO:
-    description: Objeto para transferir los datos de un viaje
+    description: Describe tanto un viaje de la base de datos o un trayecto entre paradas de algun viaje
     properties:
       id:
         type: integer
@@ -237,7 +289,8 @@ definitions:
         type: string
         description: Ciudade de destino del viaje
       fecha: 
-        type: dateTime
+        type: string
+        format: date-time
         description: Fecha de inicio del viaje
       equipajeMaximo: 
         type: integer

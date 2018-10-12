@@ -3,25 +3,23 @@ const db = require('./connection');
 function createDTO(dbo){
     return {
         orden: dbo.orden,
-        viaje: dbo.idViaje,
+        viaje: dbo.idviaje,
         ciudad: dbo.ciudad,
-        plazasLibres: dbo.plazasDisponibles,
+        asientosDisponibles: dbo.plazasdisp,
         hora: dbo.hora,
         direccion: dbo.direccion,
-        carga: dbo.equipajeCargado,
+        equipajeCargado: dbo.equipajecarg,
     }
 }
 
-function createDTO(dto){
+function createDBO(dto){
     return {
         orden: dto.orden,
         idViaje: dto.viaje,
         ciudad: dto.ciudad,
-        plazasDisponibles: dto.plazasLibres,
+        plazasdisp: dto.asientosDisponibles,
         hora: dto.hora,
         direccion: dto.direccion,
-        equipajeCargado: dto.carga,
+        equipajecarg: dto.equipajeCargado,
     }
 }
-
-
