@@ -136,6 +136,40 @@ paths:
 
       security:
         - keystone: []
+  /viajes/{viajeID}:
+    get:
+      tags:
+        - viajes
+      operationId: InformacionViaje
+      summary: Obtiene la informacion de un viaje
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/viajeDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
+  /viajes/{viajeID}/pasajeros:
+    get:
+      tags:
+        - viajes
+      operationId: listaPasajerosEnViaje
+      summary: Obtine una lista con los pasajeros confirmados para un viaje (por hacer, consultar entre paradas) 
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/pasajeroDTO'
+      security:
+        - keystone: []
 tags:
 - name: conductores
   description: ruta /api/v1/conductores
@@ -172,7 +206,6 @@ parameters:
     description: Fecha minima que tendran los viajes retornados
     type: string
     format: date-time
-    
   fechaMaximaParam:
     in: query
     name: fechamaxima
@@ -210,7 +243,13 @@ parameters:
     in: path
     required: true
     description: Nombre de la cuenta del pasajero al que se desea acceder
-    type: string     
+    type: string
+  viajeIdParam:
+    name: viajeID
+    in: path
+    required: true
+    description: id del viaje al que se desea acceder
+    type: integer
 
 definitions:
   pasajeroDTO:

@@ -1,5 +1,7 @@
 const db = require('./connection');
 const vehiculos = require('./vehiculos');
+const usuarios = require('./usuarios');
+const consts = require('./constants');
 function createDTO (dbo) {
     return {
         id: dbo.id,
@@ -20,6 +22,26 @@ function createDBO(dto){
         equipajemax: dbo.equipajeMaximo
     }
 };
+
+
+exports.listPasajerosConfirmadosEnViaje = (viajeID)=>{
+    return db.query(
+        `select p.* from pasajero as p, reserva as r
+        where r.usuario = p.username and r.estado = $1 and r.idviaje= $2`, [consts.RESERVA_APROBADA, viajeID])
+        .then(result => {
+            return result.rows.map(usuarios.createPasajeroDTO);
+        });
+}
+
+exports.getViaje = (viajeID)=>{
+    return db.query(
+        `select viaje.*, vehiculo.*
+        from viaje, vehiculo
+        where viaje.id = $1 and viaje.patente = vehiculo.patente;`, [viajeID])
+        .then(result =>{
+            return result.rows.map(createDTO);
+        });
+}
 
 /**
  * todo: agregar pasajeros y weas 

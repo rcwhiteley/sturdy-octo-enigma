@@ -1,6 +1,6 @@
 const db = require('./connection');
 
-function createPasajeroDTO (dbo) {
+exports.createPasajeroDTO = (dbo) =>{
     return {
         nombre: dbo.nombre,
         apellido: dbo.apellido,
