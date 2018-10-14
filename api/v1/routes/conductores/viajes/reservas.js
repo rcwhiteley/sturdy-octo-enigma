@@ -21,7 +21,7 @@ router.get('/:reservaID', async(req, res)=>{
 /**
  * actualiza el estado de la peticion de reserva reservaID
  */
-router.put('/:reservaID', async(req, res)=>{
+router.post('/:reservaID', async(req, res)=>{
     if(req.body.estado != 1 && req.body.estado != 2 && req.body.estado != 3){
         res.status(400).send(consts.crearErrorMsg("El estado para la reserva es invalido"));
     }
