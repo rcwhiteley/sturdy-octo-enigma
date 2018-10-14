@@ -87,6 +87,62 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
+  /conductores/{conductor}/vehiculos:
+    get:
+      tags:
+        - conductores
+      operationId: VehiculosConductor
+      summary: Obtiene todos los vehiculos de un conductor
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/vehiculoDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
+    post:
+      tags:
+        - conductores
+      operationId: CrearVehiculoConductor
+      summary: Agrega un nuevo vehiculo al conductor.
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+        - in: body
+          required: true
+          name: vehiculo
+          description: vehiculoDTO conteniendo los datos del vehiculo que se inscribira,
+                      la propiedad 'conductor' sera ignorada y sera usado el parametro conductor.
+          schema:
+            $ref: '#/definitions/vehiculoDTO'
+      responses:
+        '200':
+          description: OK
+      security:
+        - keystone: []
+  /conductores/{conductor}/vehiculos/{patente}:
+    get:
+      tags:
+        - conductores
+      operationId: VehiculoConductor
+      summary: Obtiene la informacion de un vehiculo segun su patente y su conductor
+      parameters:
+        - $ref: '#/parameters/conductorParam'
+        - $ref: '#/parameters/patenteParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/vehiculoDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
   /conductores/{conductor}/viajes:
     get:
       tags:
@@ -133,8 +189,6 @@ paths:
           description: Consulta mal formada
           schema:
             - $ref: '#/definitions/errorMsg'
-        '500':
-          description: No se pudo cambiar el estado de la reserva, probablemente hubo un error con la base de datos
       security:
         - keystone: []
   /viajes:
@@ -239,6 +293,12 @@ tags:
   description: ruta /api/v1/viajes
 
 parameters:
+  patenteParam:
+    name: patente
+    in: path
+    required: true
+    description: Patente del vehiculo al que se quiere acceder
+    type: string
   reservaIdParam:
     name: reservaID
     in: path

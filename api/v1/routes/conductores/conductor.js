@@ -3,27 +3,32 @@
 const express = require('express');
 const router = express.Router();
 const viajes = require('./viajes/viajes');
+const vehiculos = require('./vehiculos');
 const db = require('../../database/database');
 
-//router.use('/:usuario/reservas', reservas);
-
-router.use('/:conductor/viajes', function(req, res, next) {
+router.use('/:conductor/viajes', function (req, res, next) {
     req.conductor = req.params.conductor;
     next()
-  }, viajes);
+}, viajes);
 
-  
-router.get('/:conductor', async (req, res)=>{
+
+router.use('/:conductor/vehiculos', function (req, res, next) {
+    req.conductor = req.params.conductor;
+    next()
+}, vehiculos);
+
+
+router.get('/:conductor', async (req, res) => {
     let byName = req.query.byname == 'true';
     var result;
-    if(byName)
+    if (byName)
         result = await db.usuarios.getConductorByName(req.params.conductor);
     else
         result = await db.usuarios.getConductorById(req.params.conductor);
-    if(result.length > 0){
+    if (result.length > 0) {
         res.send(result[0]);
     }
-    else{
+    else {
         res.sendStatus(204);
     }
 });
