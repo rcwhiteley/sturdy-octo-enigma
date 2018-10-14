@@ -106,6 +106,37 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
+  /conductores/{conductor}/viajes/{viajeID}/reservas/{reservaID}:
+    put:
+      tags:
+        - conductores
+      operationId: cambiarEstadoReserva
+      summary: Cambia el estado de una reserva, solo puede ejecutarlo el conductor que creo el viaje
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+        - $ref: '#/parameters/viajeIdParam'
+        - $ref: '#/parameters/reservaIdParam'
+        - in: body
+          required: true
+          name: Reserva
+          description: reservaDTO conteniendo el estado con el que se actualizara la reserva 
+            * estado
+
+            seran ignoradas.
+          schema:
+            $ref: '#/definitions/reservaDTO'
+
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Consulta mal formada
+          schema:
+            - $ref: '#/definitions/errorMsg'
+        '500':
+          description: No se pudo cambiar el estado de la reserva, probablemente hubo un error con la base de datos
+      security:
+        - keystone: []
   /viajes:
     get:
       tags:
@@ -117,6 +148,8 @@ paths:
         - $ref: '#/parameters/ciudadDestinoParam'
         - $ref: '#/parameters/fechaMinimaParam'
         - $ref: '#/parameters/fechaMaximaParam'
+        - $ref: '#/parameters/numPasajerosParam'
+        - $ref: '#/parameters/numMaletasParam'
       responses:
         '200':
           description: OK
@@ -124,16 +157,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/viajeDTO'
-        description: No se retornaron datos, es probable que no exista en la base de datos
         '400':
           description: Faltan parametros en la consulta o tienen el nombre equivocado
           schema:
-            type: object
-            properties:
-              message:
-                type: string
-                descriptiom: Descripcion del error
-
+            $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
   /viajes/{viajeID}:
@@ -170,6 +197,37 @@ paths:
               $ref: '#/definitions/pasajeroDTO'
       security:
         - keystone: []
+    post:
+      tags:
+        - viajes
+      operationId: registrarSolicitudReserva
+      summary: Crea una nueva solicitud de reserva en el viaje especificado 
+      description: NO HAY SANITY CHECKS AUN!
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+        - in: body
+          required: true
+          name: Reserva
+          description: Reserva que se intentara crear, las propiedades que no sean 
+            * pasajero
+            * origen
+            * destino
+            * maletas
+            * asientos
+
+            seran ignoradas.
+          schema:
+            $ref: '#/definitions/reservaDTO'
+      responses:
+        '200':
+          description: OK
+        '409':
+          description: El pasajero no puede pedir una reserva al viaje
+          schema:
+            $ref: '#/definitions/errorMsg'
+      security:
+        - keystone: []
+
 tags:
 - name: conductores
   description: ruta /api/v1/conductores
@@ -185,7 +243,7 @@ parameters:
     name: reservaID
     in: path
     required: true
-    description: id de la reserva que se desea borrar 
+    description: id de la reserva que a la que se desea acceder 
     type: integer
   ciudadOrigenParam:
     in: query
@@ -193,12 +251,14 @@ parameters:
     required: true
     description: Ciudad en donde desea buscar el viaje
     type: string
+    example: ciudad1
   ciudadDestinoParam:
     in: query
     name: destino
     required: true
     description: Ciudad a la que desea que el viaje llegue o pase por
     type: string
+    example: ciudad2
   fechaMinimaParam:
     in: query
     name: fechaminima
@@ -206,6 +266,7 @@ parameters:
     description: Fecha minima que tendran los viajes retornados
     type: string
     format: date-time
+    example: 2015-01-01 15:00:00
   fechaMaximaParam:
     in: query
     name: fechamaxima
@@ -213,6 +274,19 @@ parameters:
     description: Fecha maxima que tendran los viajes retornados
     type: string
     format: date-time
+    example: 2019-01-01 15:00:00
+  numPasajerosParam:
+    name: asientos
+    in: query
+    required: true
+    description: numero de asientos que se desea reservar
+    type: integer
+  numMaletasParam:
+    name: maletas
+    in: query
+    required: true
+    description: numero de maletas que se llevaran
+    type: integer
   byNameParam:
     name: byname
     in: query
@@ -313,47 +387,71 @@ definitions:
         type: integer
         description: Cantidad de asientes que tiene el vehiculo
       conductor:
+        example: test1
         type: string
         description: Nombre de la cuenta del dueño del vehiculo
   viajeDTO:
     description: Describe tanto un viaje de la base de datos o un trayecto entre paradas de algun viaje
     properties:
       id:
+        example: 1
         type: integer
         description: Identificador unico del viaje
       origen: 
+        example: ciudad1
         type: string
         description: Ciudad de origen del viaje
       destino:
+        example: ciudad2
         type: string
         description: Ciudade de destino del viaje
       fecha: 
+        example: 2018-11-13 15:00:00
         type: string
         format: date-time
         description: Fecha de inicio del viaje
       equipajeMaximo: 
+        example: 5
         type: integer
         description: Maximo de maletas que soporta el vehiculo
       vehiculo:
         $ref: '#/definitions/vehiculoDTO'
-        description: Vehiculo en el que se viajara
   reservaDTO:
     properties:
       id:
+        example: 1
         type: integer
         description: identificador unico de la reserva
       pasajero:
+        example: test2
         type: string
         description: Nombre de la cuenta del pasajero
       idViaje:
+        example: 1
         type: integer
         description: id del viaje al que se le hizo la reserva
       origen:
+        example: ciudad1
         type: string
         description: Ciudad en donde el pasajero se subira al viaje
       destino:
+        example: ciudad2
         type: string
         description: Ciudad en donde se bajara el pasajero
-      estado: 
+      asientos:
+        example: 2
         type: integer
-        description: estado en el que se encuentra la solicitud de la reserva
+        description: Numero de asientos que se desean reservar o fueron reservados
+      maletas:
+        example: 3
+        type: integer
+        description: Numero de maletas que lleva el pasajero
+      estado:
+        example: 1
+        type: integer
+        description: estado en el que se encuentra la solicitud de la reserva, 1=pendiente, 2=aprobada, 3=rechazada
+  errorMsg:
+    properties:
+      message:
+        type: string
+        description: Descripcion del error

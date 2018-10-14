@@ -2,7 +2,6 @@
 
 const express = require('express');
 const router = express.Router();
-const reservas = require('./viajes/reservas');
 const viajes = require('./viajes/viajes');
 const db = require('../../database/database');
 

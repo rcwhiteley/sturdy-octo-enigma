@@ -18,7 +18,9 @@ router.get('/', async(req, res)=>{
  */
 router.delete('/:reservaID', async(req, res)=>{
     let result = await db.reservas.borrarReservaDePasajero(req.pasajero, req.params.reservaID);
-    if(res.rowCount > 0){
+    console.log(result.rowCount);
+
+    if(result.rowCount >= 1){
         res.sendStatus(200);
     }
     else{

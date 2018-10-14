@@ -5,10 +5,8 @@ function createDTO(dbo){
         orden: dbo.orden,
         viaje: dbo.idviaje,
         ciudad: dbo.ciudad,
-        asientosDisponibles: dbo.plazasdisp,
         hora: dbo.hora,
         direccion: dbo.direccion,
-        equipajeCargado: dbo.equipajecarg,
     }
 }
 

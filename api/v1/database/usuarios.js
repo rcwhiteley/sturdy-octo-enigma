@@ -1,6 +1,6 @@
 const db = require('./connection');
 
-exports.createPasajeroDTO = (dbo) =>{
+createPasajeroDTO = (dbo) =>{
     return {
         nombre: dbo.nombre,
         apellido: dbo.apellido,
@@ -56,15 +56,18 @@ exports.getUsuarioById = (id) => {
 };
 
 exports.getConductorByName = (nombre) => {
-    return  db.query('select * from pasajero, conductor where nombre = $1', [nombre])
+    return  db.query('select * from pasajero, conductor where pasajero.username = conductor.username and nombre = $1', [nombre])
     .then(res=>{
         return res.rows.map(createConductorDTO);
     });
 };
 
 exports.getConductorById = (id) => {
-    return db.query('select * from pasajero, conductor where pasajero.username = $1', [id])
+    return db.query('select * from pasajero, conductor where pasajero.username = conductor.username and pasajero.username = $1', [id])
     .then(res =>{
         return res.rows.map(createConductorDTO)
     });
 };
+
+exports.createPasajeroDTO = createPasajeroDTO;
+exports.createConductorDTO = createConductorDTO;

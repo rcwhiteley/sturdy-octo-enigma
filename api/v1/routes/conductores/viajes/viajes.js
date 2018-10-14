@@ -15,7 +15,6 @@ router.use('/:viajeID/reservas', function(req, res, next) {
  * retorna los viajes creados por el conductor
  */
 router.get('/', async(req, res)=>{
-    console.log("hola!" + req.usuario);
     let result = await db.viajes.getViajesCreadosByUsername(req.conductor);
     if(result.length > 0){
         res.send(result);

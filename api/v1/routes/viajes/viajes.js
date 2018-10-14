@@ -28,8 +28,14 @@ router.get('/', async(req, res)=>{
     else if(req.query.destino == undefined){
         res.status(400).send(JSON.stringify({message:'paramero destino no encontrado'}));
     }
+    else if(req.query.asientos == undefined){
+        res.status(400).send(JSON.stringify({message:'paramero asientos no encontrado'}));
+    }
+    else if(req.query.maletas == undefined){
+        res.status(400).send(JSON.stringify({message:'paramero maletas no encontrado'}));
+    }
     else{
-        let result = await db.viajes.listViajesQuePasanPor(req.query.origen, req.query.destino, req.query.fechaminima, req.query.fechamaxima);
+        let result = await db.viajes.listViajesQuePasanPor(req.query.origen, req.query.destino, req.query.fechaminima, req.query.fechamaxima, req.query.asientos, req.query.maletas);
         res.send(result);
     }
 });
