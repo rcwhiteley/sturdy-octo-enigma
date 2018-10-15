@@ -185,7 +185,7 @@ paths:
           description: Viaje que se creara, la propiedad viaje.id sera ignorada al igual
                       que todas las propiedades de viaje.vehiculo que no sean viaje.vehiculo.patente
           schema:
-            - $ref: '/#definitions/viajeDTO'
+            $ref: '#/definitions/viajeDTO'
       responses:
         '200':
           description: OK
