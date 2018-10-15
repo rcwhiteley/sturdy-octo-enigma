@@ -21,7 +21,7 @@ router.get('/:reservaID', async(req, res)=>{
 /**
  * actualiza el estado de la peticion de reserva reservaID
  */
-router.post('/:reservaID', async(req, res)=>{
+router.put('/:reservaID', async(req, res)=>{
     if(req.body.estado != 1 && req.body.estado != 2 && req.body.estado != 3){
         res.status(400).send(consts.crearErrorMsg("El estado para la reserva es invalido"));
     }
@@ -32,7 +32,7 @@ router.post('/:reservaID', async(req, res)=>{
         }
         else{
             console.log(result);
-            res.status(500).send('No se pudo cambiar el estado de la reserva');
+            res.status(500).send(consts.crearErrorMsg('No se pudo cambiar el estado de la reserva'));
         }
     }
 });
