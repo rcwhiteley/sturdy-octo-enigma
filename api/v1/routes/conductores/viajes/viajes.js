@@ -53,8 +53,8 @@ router.post('/', async (req, res) => {
     }
     else{
         let result = await db.viajes.crearViaje(req.body);
-        if(result.length > 0){
-            res.send(result);
+        if(result.rowCount > 0){
+            res.sendStatus(200);
         }
         else{
             console.log(result);
