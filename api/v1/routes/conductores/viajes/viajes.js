@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     else if(req.body.fecha == undefined){
         res.status(400).send(consts.crearErrorMsg('paramero fecha no encontrado en el cuerpo de la consulta'));
     }
-    else if(req.body.equipajeMax == undefined){
+    else if(req.body.equipajeMaximo == undefined){
         res.status(400).send(consts.crearErrorMsg('paramero equipajeMax no encontrado en el cuerpo de la consulta'));
     }
     else if(req.body.vehiculo.patente == undefined){
