@@ -3,7 +3,7 @@ const db = require('./connection');
 function createDTO(dbo) {
     return {
         patente: dbo.patente,
-        maraca: dbo.marca,
+        marca: dbo.marca,
         modelo: dbo.modelo,
         aptoSillaBebe: dbo.aptoparasilla,
         dosPasajerosAtras: dbo.dosatras,
@@ -17,7 +17,7 @@ function createDTO(dbo) {
 function createDBO(dto) {
     return {
         patente: dbo.patente,
-        maraca: dbo.marca,
+        marca: dbo.marca,
         modelo: dbo.modelo,
         aptoparasilla: aptoSillaBebe,
         dosatras: dosPasajerosAtras,
