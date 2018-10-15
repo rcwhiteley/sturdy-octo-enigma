@@ -3,5 +3,5 @@ exports.RESERVA_APROBADA = 2;
 exports.RESERVA_CANCELADA = 3;
 
 exports.crearErrorMsg = (message)=>{
-    return { message: message};
+    return JSON.stringify( { message: message});
 }

@@ -3,7 +3,7 @@ const db = require('./connection');
 function createDTO(dbo){
     return {
         orden: dbo.orden,
-        viaje: dbo.idviaje,
+        idViaje: dbo.idviaje,
         ciudad: dbo.ciudad,
         hora: dbo.hora,
         direccion: dbo.direccion,
@@ -21,3 +21,5 @@ function createDBO(dto){
         equipajecarg: dto.equipajeCargado,
     }
 }
+
+exports.createDTO = createDTO;

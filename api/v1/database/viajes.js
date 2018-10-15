@@ -2,6 +2,7 @@ const db = require('./connection');
 const vehiculos = require('./vehiculos');
 const usuarios = require('./usuarios');
 const consts = require('./constants');
+const paradas = require('./paradas');
 function createDTO(dbo) {
     return {
         id: dbo.id,
@@ -60,6 +61,41 @@ exports.getViajesCreadosByUsername = (conductor) => {
 exports.esRutaValida = (viajeId, origen, destino) => {
 
 };
+
+exports.crearViaje = (viajeDTO) => {
+    return db.query(`insert into viaje values(DEFAULT, $1, $2, $3, $4, $5)`, [viajeDTO.vehiculo.patente, viajeDTO.origen, viajeDTO.destino, viajeDTO.fecha, viajeDTO.equipajeMaximo]);
+}
+
+exports.asignarParadas = async (viajeID, paradas) => {
+    const client = await db.pool.connect();
+    try {
+        
+        await client.query('BEGIN')
+        await client.query('delete from reserva where idviaje=$1', [viajeID]);
+        let res = await client.query('delete from parada where idviaje=$1', [viajeID]);
+        
+        promises = [];
+        for(let i = 0; i < paradas.length; i++){
+            promises.push(client.query('insert into parada (idviaje, orden, ciudad, hora, direccion) values ($1, $2, $3, $4, $5)',
+            [viajeID, paradas[i].orden, paradas[i].ciudad, paradas[i].hora, paradas[i].direccion]));
+        }
+        Promise.all(promises);
+        await client.query('COMMIT');
+    } catch (e) {
+        await client.query('ROLLBACK');
+        throw e;
+    } finally {
+        client.release()
+    }
+}
+
+exports.listParadas = (viajeID) =>{
+    return db.query('select * from parada where idviaje=$1', [viajeID])
+    .then(res=>{
+        return res.rows.map(paradas.createDTO);
+    });
+};
+
 
 exports.listViajesQuePasanPor = (origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas) => {
     console.log([origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas].join('-'));

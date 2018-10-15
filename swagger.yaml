@@ -69,6 +69,16 @@ paths:
           description: No se borraron datos
       security:
         - keystone: []
+
+
+
+
+
+
+
+
+
+
   /conductores/{conductor}:
     get:
       tags:
@@ -162,8 +172,33 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
-  /conductores/{conductor}/viajes/{viajeID}/reservas/{reservaID}:
     post:
+      tags:
+        - conductores
+      operationId: crearViaje
+      summary: Crea un nuevo viaje a nombre del conductor
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+        - in: body
+          required: true
+          name: viaje
+          description: Viaje que se creara, la propiedad viaje.id sera ignorada al igual
+                      que todas las propiedades de viaje.vehiculo que no sean viaje.vehiculo.patente
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Error en la consulta
+            schema:
+              - $ref: '#/definitions/errorMsg'
+        '500':
+          description: Hubo un error al crear el viaje en la base de datos
+            schema:
+              - $ref: '#/definitions/errorMsg'
+      security:
+        - keystone: []
+  /conductores/{conductor}/viajes/{viajeID}/reservas/{reservaID}:
+    put:
       tags:
         - conductores
       operationId: cambiarEstadoReserva
@@ -175,22 +210,67 @@ paths:
         - in: body
           required: true
           name: Reserva
-          description: reservaDTO conteniendo el estado con el que se actualizara la reserva 
-            * estado
-
-            seran ignoradas.
+          description: reservaDTO conteniendo el estado con el que se actualizara la reserva, las demas propiedades seran ignoradas 
           schema:
             $ref: '#/definitions/reservaDTO'
-
       responses:
         '200':
           description: OK
-        '400':
+        '500':
+          description: Consulta mal formada
+          schema:
+            - $ref: '#/definitions/errorMsg'
+      
+      security:
+        - keystone: []
+
+  /conductores/{conductor}/viajes/{viajeID}/paradas:
+    post:
+      tags:
+        - conductores
+      operationId: asignarParadas
+      summary: Remplazas las paradas de un viaje
+      description: Remplaza las paradas del viaje por las asignadas en el cuerpo de la consulta, si hay reservas hechas, por ahora seran eliminadas
+              bug: Ante ciertos errores, respondera con status = 200, ocurrio mientras habia un error de sintaxis en sql y es probable que no ocurra mas
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+        - $ref: '#/parameters/viajeIdParam'
+        - in: body
+          required: true
+          name: paradas
+          description: lista de paradaDTO que se le asignaran al viaje, se ignoraran las propiedades
+                      * id
+                      * idViaje
+
+                      de cada paradaDTO de la lista
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/paradaDTO'
+      responses:
+        '200':
+          description: OK
+        '500':
           description: Consulta mal formada
           schema:
             - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /viajes:
     get:
       tags:
@@ -279,6 +359,27 @@ paths:
           description: El pasajero no puede pedir una reserva al viaje
           schema:
             $ref: '#/definitions/errorMsg'
+      security:
+        - keystone: []
+  /viajes/{viajeID}/paradas:
+    get:
+      tags:
+        - viajes
+      operationId: listarParadasViaje
+      summary: Obtiene una lista con las paradas de un viaje
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/paradaDTO'
+        '500':
+          description: Consulta mal formada
+          schema:
+            - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
 
@@ -510,6 +611,30 @@ definitions:
         example: 1
         type: integer
         description: estado en el que se encuentra la solicitud de la reserva, 1=pendiente, 2=aprobada, 3=rechazada
+  paradaDTO:
+    properties:
+      idViaje:
+        example: 1
+        type: integer
+        description: id del viaje al que pertenece la parada
+      orden:
+        example: 1
+        type: integer
+        description: posicion, entre todas las paradas del viaje, en la que se visitara esta parada
+      ciudad:
+        example: ciudad1
+        type: string
+        description: nombre de la ciudad
+      hora:
+        example: 2018-01-01 15:00:00
+        type: string
+        format: date-time
+        description: Hora a la que se pretende salir de la parada
+      direccion:
+        example: Maipu 123
+        type: string
+        description: Direccion de donde se saldra de la parada.
+
   errorMsg:
     properties:
       message:

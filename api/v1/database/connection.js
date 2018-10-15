@@ -11,3 +11,5 @@ const connectionData = {
 const pool = new Pool(connectionData);
 
 exports.query = (text, params) => pool.query(text, params);
+
+exports.pool = pool;
