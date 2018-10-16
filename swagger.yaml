@@ -22,6 +22,7 @@ paths:
         - pasajeros
       operationId: InformacionPasajero
       summary: Obtiene la informacion de un pasajero
+      description: Obtiene un objeto de tipo pasajeroDTO con la informacion del pasajero al que se accedio
       parameters:
         - $ref: '#/parameters/pasajeroParam'
         - $ref: '#/parameters/byNameParam'
@@ -40,6 +41,7 @@ paths:
         - pasajeros
       operationId: ReservasPasajero
       summary: Obtiene todas las reservas que ha hecho el pasajero
+      description: Todas las reservas que ha solicitado el pasajero a cualquier viaje
       parameters:
         - $ref: '#/parameters/pasajeroUsernameParam'
       responses:
@@ -58,7 +60,8 @@ paths:
       tags:
         - pasajeros
       operationId: DeleteReservaPasajero
-      summary: Eliminia una reserva del pasajero
+      summary: Elimina una reserva del pasajero
+      description: Elimina la reserva a la que se accedio, solicitada por el pasajero
       parameters:
         - $ref: '#/parameters/pasajeroUsernameParam'
         - $ref: '#/parameters/reservaIdParam'
@@ -84,7 +87,7 @@ paths:
       tags:
         - conductores
       operationId: InformacionConductor
-      summary: Obtiene la informacion de un conductor
+      summary: Obtiene un objeto conductorDTO con toda la informacion del conductor al que se accedio
       parameters:
         - $ref: '#/parameters/conductorParam'
         - $ref: '#/parameters/byNameParam'
@@ -102,6 +105,7 @@ paths:
       tags:
         - conductores
       operationId: VehiculosConductor
+      description: Obtiene todos los vehiculos vinculados al conductor al que se accedio
       summary: Obtiene todos los vehiculos de un conductor
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
@@ -121,6 +125,7 @@ paths:
         - conductores
       operationId: CrearVehiculoConductor
       summary: Agrega un nuevo vehiculo al conductor.
+      description: Agrega un nuevo vehiculo y lo vincula con el conductor al que se accedio
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - in: body
@@ -141,6 +146,7 @@ paths:
         - conductores
       operationId: VehiculoConductor
       summary: Obtiene la informacion de un vehiculo segun su patente y su conductor
+      description: Obtiene la informacion del vehiculo al que se accedio.
       parameters:
         - $ref: '#/parameters/conductorParam'
         - $ref: '#/parameters/patenteParam'
@@ -159,6 +165,7 @@ paths:
         - conductores
       operationId: listaViajesCreados
       summary: Obtiene una lista con los viajes creados por el conductor
+      descripton: Obtiene una lista con todos los viajes que han sido creados por el conductor al que se accedio
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
       responses:
@@ -177,6 +184,8 @@ paths:
         - conductores
       operationId: crearViaje
       summary: Crea un nuevo viaje a nombre del conductor
+      description: Crea un nuevo viaje a nombre del conductor, debe, necesariamente para que el viaje sea buscable, ser
+      seguido de una operacion POST a /conductores/{conductor}/viajes/{viajeid}/ especificando las paradas.
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - in: body
@@ -205,6 +214,7 @@ paths:
         - conductores
       operationId: listaReservasRecibidas
       summary: Obtiene una lista las reservas a un viaje recibidas por el conductor
+      description: Obtiene todas las reservas asociadas a un viajes creado por el conductor
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - $ref: '#/parameters/viajeIdParam'
@@ -222,7 +232,8 @@ paths:
       tags:
         - conductores
       operationId: cambiarEstadoReserva
-      summary: Cambia el estado de una reserva, solo puede ejecutarlo el conductor que creo el viaje
+      summary: Cambia el estado de una reserva
+      description: Cambia es estado de una reserva, solo el conductor creador del viaje puede hacerlo.
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - $ref: '#/parameters/viajeIdParam'
