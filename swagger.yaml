@@ -165,7 +165,7 @@ paths:
         - conductores
       operationId: listaViajesCreados
       summary: Obtiene una lista con los viajes creados por el conductor
-      descripton: Obtiene una lista con todos los viajes que han sido creados por el conductor al que se accedio
+      description: Obtiene una lista con todos los viajes que han sido creados por el conductor al que se accedio
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
       responses:
@@ -184,8 +184,8 @@ paths:
         - conductores
       operationId: crearViaje
       summary: Crea un nuevo viaje a nombre del conductor
-      description: Crea un nuevo viaje a nombre del conductor, debe, necesariamente para que el viaje sea buscable, ser
-      seguido de una operacion POST a /conductores/{conductor}/viajes/{viajeid}/ especificando las paradas.
+      description: Crea un nuevo viaje a nombre del conductor, debe, necesariamente para que el viaje sea buscable, ser seguido de una operacion POST a /conductores/conductor/viajes/viajeid/ especificando las paradas
+      
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - in: body
@@ -200,12 +200,8 @@ paths:
           description: OK
         '400':
           description: Error en la consulta
-            schema:
-              - $ref: '#/definitions/errorMsg'
         '500':
           description: Hubo un error al crear el viaje en la base de datos
-            schema:
-              - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
   /conductores/{conductor}/viajes/{viajeID}/reservas:
@@ -249,8 +245,6 @@ paths:
           description: OK
         '500':
           description: Consulta mal formada
-          schema:
-            - $ref: '#/definitions/errorMsg'
       
       security:
         - keystone: []
@@ -262,7 +256,6 @@ paths:
       operationId: asignarParadas
       summary: Remplazas las paradas de un viaje
       description: Remplaza las paradas del viaje por las asignadas en el cuerpo de la consulta, si hay reservas hechas, por ahora seran eliminadas
-              bug: Ante ciertos errores, respondera con status = 200, ocurrio mientras habia un error de sintaxis en sql y es probable que no ocurra mas
       parameters:
         - $ref: '#/parameters/conductorUsernameParam'
         - $ref: '#/parameters/viajeIdParam'
@@ -283,8 +276,6 @@ paths:
           description: OK
         '500':
           description: Consulta mal formada
-          schema:
-            - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
 
@@ -409,8 +400,6 @@ paths:
               $ref: '#/definitions/paradaDTO'
         '500':
           description: Consulta mal formada
-          schema:
-            - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
 

@@ -8,7 +8,6 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 app.use(bodyParser.json());
 app.use('/api/v1', v1);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 const port = process.env.PORT || 8080;
 
 app.listen(port, function(){
