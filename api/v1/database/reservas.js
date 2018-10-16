@@ -66,3 +66,11 @@ exports.cambiarEstadoReserva = (reservaID, estado) =>{
     return db.query(
         `update reserva set estado = $1 where id = $2`, [estado, reservaID]);
 };
+
+exports.getReservasRecibidas = (conductor, viajeid) =>{
+    return db.query(
+        `select * from reserva where idviaje=$1`, [viajeid]
+    ).then(result => {
+         return result.rows.map(createDTO);
+    });
+}

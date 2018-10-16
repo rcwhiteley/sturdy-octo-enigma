@@ -7,8 +7,9 @@ const consts = require('../../../database/constants');
 /**
  * retorna las peticiones de reserva hechas al viaje creado por el usuario
  */
-router.get('/:viajeID/reservas', async(req, res)=>{
-
+router.get('/', async(req, res)=>{
+    let result = await db.reservas.getReservasRecibidas(req.conductor,req.viajeID);
+    res.send(result);
 });
 
 /**

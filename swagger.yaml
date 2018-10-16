@@ -199,6 +199,24 @@ paths:
               - $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
+  /conductores/{conductor}/viajes/{viajeID}/reservas:
+    get:
+      tags:
+        - conductores
+      operationId: listaReservasRecibidas
+      summary: Obtiene una lista las reservas a un viaje recibidas por el conductor
+      parameters:
+        - $ref: '#/parameters/conductorUsernameParam'
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/reservaDTO'
+      security:
+        - keystone: []
   /conductores/{conductor}/viajes/{viajeID}/reservas/{reservaID}:
     put:
       tags:
