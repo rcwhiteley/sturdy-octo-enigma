@@ -25,6 +25,8 @@
     "npm": "^6.4.1",
     "pg": "^7.4.3",
     "swagger-ui-express": "^4.0.1",
+    "winston": "^3.0.0",
+    "winston-daily-rotate-file": "^3.2.3",
     "yamljs": "^0.3.0"
   }
 }
