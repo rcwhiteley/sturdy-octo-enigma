@@ -9,6 +9,7 @@ let createDTO = (dbo) => {
         destino: dbo.destino,
         estado: dbo.estado,
         maletas: dbo.maletas,
+        hora: dbo.hora,
         asientos: dbo.numasientos
     }
 };
@@ -29,7 +30,8 @@ exports.cambiarEstadoReserva = ()=>{
 };
 
 exports.getReservasPasajero = (username)=>{
-    return db.query(`select * from reserva where usuario=$1`, [username]).
+    return db.query(`select reserva.*, parada.hora from reserva, parada where usuario=$1
+    and parada.idViaje = parada.idViaje and reserva.origen = parada.ciudad`, [username]).
         then(result=>{
             return result.rows.map(createDTO);
         });

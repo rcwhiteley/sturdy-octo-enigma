@@ -3,10 +3,11 @@ const db = require('../../database/database');
 const constants = require('../../database/constants');
 const router = express.Router();
 
-router.get('/{conductor}', async (req,res)=>{
-    let conductor = params.conductor;
-    db.usuarios.getConductor(conductor)
-    .then(result=>{
+router.get('/:conductor', async(req,res)=>{
+    console.log("asda");
+    let conductor = req.params.conductor;
+    let result = await db.usuarios.getDatosConductor(conductor);
+    /*.then(result=>{
         if(result.length > 0){
             res.send(constants.createResponse(constants.ERROR_SUCCESS, result[0]));
         }
@@ -16,6 +17,8 @@ router.get('/{conductor}', async (req,res)=>{
     })
     .catch(error=>{
         res.send(constants.createResponse(error));
-    });
+    });*/
 });
 
+
+module.exports = router;

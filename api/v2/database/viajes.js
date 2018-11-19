@@ -5,6 +5,8 @@ const consts = require('./constants');
 const paradas = require('./paradas');
 function createDTO(dbo) {
     return {
+        nombre: dbo.nombre,
+        apellido: dbo.apellido,
         id: dbo.id,
         origen: dbo.origen,
         destino: dbo.destino,
@@ -15,13 +17,12 @@ function createDTO(dbo) {
 };
 
 exports.getViajes = (origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas) => {
-    console.log([origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas].join('-'));
     return db.query(
-        `SELECT
-            vj.id as id, pi.orden as ordenorigen, pf.orden as ordendestino, pi.ciudad as origen, pf.ciudad as destino,
+        `SELECT 
+            pas.nombre, pas.apellido, vj.id as id, pi.orden as ordenorigen, pf.orden as ordendestino, pi.ciudad as origen, pf.ciudad as destino,
             pi.hora as fecha, v.*
-        FROM viaje as vj, parada as pi, parada as pf, vehiculo as v
-        WHERE v.patente = vj.patente 
+        FROM viaje as vj, parada as pi, parada as pf, vehiculo as v, pasajero as pas
+        WHERE v.patente = vj.patente and pas.username = v.conductor
             and pi.ciudad = $1 and pf.ciudad = $2 and pi.orden < pf.orden 
             and vj.fecha >= $3 and vj.fecha <= $4 and vj.id = pi.idviaje and vj.id = pf.idviaje
             and (NOT EXISTS(
@@ -41,8 +42,13 @@ exports.getViajes = (origen, destino, fechaMinima, fechaMaxima, asientosNecesari
                 )
             )
 
-        group by vj.id, pi.orden, pf.orden, pi.ciudad, pf.ciudad, pi.hora, v.patente`, [origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas, consts.RESERVA_APROBADA])
-        .then(result => {
+        group by pas.username, vj.id, pi.orden, pf.orden, pi.ciudad, pf.ciudad, pi.hora, v.patente`, 
+        [origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas, consts.RESERVA_APROBADA])
+        .then((result) => {
             return result.rows.map(createDTO);
+        })
+        .catch((error)=>{
+            console.log(new Error(error).stack);
+            throw "Fallo al obtener datos de la base de datos";
         });
 }

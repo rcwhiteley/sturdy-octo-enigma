@@ -8,22 +8,7 @@ function createDTO(dbo) {
         aptoSillaBebe: dbo.aptoparasilla,
         dosPasajerosAtras: dbo.dosatras,
         capacidadEquipaje: dbo.capequipaje,
-        numeroPlazas: dbo.numplazas,
-        conductor: dbo.conductor
-
-    }
-};
-
-function createDBO(dto) {
-    return {
-        patente: dbo.patente,
-        marca: dbo.marca,
-        modelo: dbo.modelo,
-        aptoparasilla: aptoSillaBebe,
-        dosatras: dosPasajerosAtras,
-        capequipaje: capacidadEquipaje,
-        numplazas: numeroPlazas,
-        conductor: conductor
+        numeroPlazas: dbo.numplazas
 
     }
 };

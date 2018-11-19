@@ -9,8 +9,8 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 app.use(bodyParser.json());
 app.use('/api/v1', v1);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api/v2/', v2);
-const port = process.env.PORT || 8080;
+app.use('/api/v2', v2);
+const port = process.env.PORT || 8081;
 
 app.listen(port, function(){
     console.log("Recibiendo conexiones puerto " + port + ".");

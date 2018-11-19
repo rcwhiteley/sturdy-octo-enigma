@@ -1,0 +1,391 @@
+info:
+  title: TeLleo API
+  version: 2.0.0
+consumes:
+  - application/json
+produces:
+  - application/json
+swagger: '2.0'
+securityDefinitions:
+  keystone:
+    description: OpenStack Keystone Authentication
+    type: apiKey
+    in: header
+    name: x-auth-token
+basePath: /api/v1
+security: []
+
+paths:
+  /viajes:
+    get:
+      tags:
+        - viajes
+      operationId: listaViajes
+      summary: Obtine una lista con los viajes que pasan por dos ciudades entre un rango de fechas 
+      parameters:
+        - $ref: '#/parameters/ciudadOrigenParam'
+        - $ref: '#/parameters/ciudadDestinoParam'
+        - $ref: '#/parameters/fechaMinimaParam'
+        - $ref: '#/parameters/fechaMaximaParam'
+        - $ref: '#/parameters/numPasajerosParam'
+        - $ref: '#/parameters/numMaletasParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/viajeDTO'
+        '400':
+          description: Faltan parametros en la consulta o tienen el nombre equivocado
+          schema:
+            type: object
+            name: envelopedResponse
+              properties:
+                error
+            $ref: '#/definitions/errorMsg'
+      security:
+        - keystone: []
+  /viajes/{viajeID}:
+    get:
+      tags:
+        - viajes
+      operationId: InformacionViaje
+      summary: Obtiene la informacion de un viaje
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/viajeDTO'
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
+  /viajes/{viajeID}/pasajeros:
+    get:
+      tags:
+        - viajes
+      operationId: listaPasajerosEnViaje
+      summary: Obtine una lista con los pasajeros confirmados para un viaje (por hacer, consultar entre paradas) 
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/pasajeroDTO'
+      security:
+        - keystone: []
+    post:
+      tags:
+        - viajes
+      operationId: registrarSolicitudReserva
+      summary: Crea una nueva solicitud de reserva en el viaje especificado 
+      description: NO HAY SANITY CHECKS AUN!
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+        - in: body
+          required: true
+          name: Reserva
+          description: Reserva que se intentara crear, las propiedades que no sean 
+            * pasajero
+            * origen
+            * destino
+            * maletas
+            * asientos
+
+            seran ignoradas.
+          schema:
+            $ref: '#/definitions/reservaDTO'
+      responses:
+        '200':
+          description: OK
+        '409':
+          description: El pasajero no puede pedir una reserva al viaje
+          schema:
+            $ref: '#/definitions/errorMsg'
+      security:
+        - keystone: []
+  /viajes/{viajeID}/paradas:
+    get:
+      tags:
+        - viajes
+      operationId: listarParadasViaje
+      summary: Obtiene una lista con las paradas de un viaje
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/paradaDTO'
+        '500':
+          description: Consulta mal formada
+      security:
+        - keystone: []
+
+tags:
+- name: conductores
+  description: ruta /api/v1/conductores
+
+- name: pasajeros
+  description: ruta /api/v1/pasajeros
+
+- name: viajes
+  description: ruta /api/v1/viajes
+
+parameters:
+  patenteParam:
+    name: patente
+    in: path
+    required: true
+    description: Patente del vehiculo al que se quiere acceder
+    type: string
+  reservaIdParam:
+    name: reservaID
+    in: path
+    required: true
+    description: id de la reserva que a la que se desea acceder 
+    type: integer
+  ciudadOrigenParam:
+    in: query
+    name: origen
+    required: true
+    description: Ciudad en donde desea buscar el viaje
+    type: string
+    example: ciudad1
+  ciudadDestinoParam:
+    in: query
+    name: destino
+    required: true
+    description: Ciudad a la que desea que el viaje llegue o pase por
+    type: string
+    example: ciudad2
+  fechaMinimaParam:
+    in: query
+    name: fechaminima
+    required: true
+    description: Fecha minima que tendran los viajes retornados
+    type: string
+    format: date-time
+    example: 2015-01-01 15:00:00
+  fechaMaximaParam:
+    in: query
+    name: fechamaxima
+    required: true
+    description: Fecha maxima que tendran los viajes retornados
+    type: string
+    format: date-time
+    example: 2019-01-01 15:00:00
+  numPasajerosParam:
+    name: asientos
+    in: query
+    required: true
+    description: numero de asientos que se desea reservar
+    type: integer
+  numMaletasParam:
+    name: maletas
+    in: query
+    required: true
+    description: numero de maletas que se llevaran
+    type: integer
+  byNameParam:
+    name: byname
+    in: query
+    required: false
+    description: true si se desea buscar por nombre del usuario, false si desdea buscar por el nombre de la cuenta del usuario
+    type: boolean
+    default: false
+  conductorParam:
+    name: conductor
+    in: path
+    required: true
+    description: Nombre de la cuenta o del conductor de quien se quieren consultar los datos
+    type: string
+  pasajeroParam:
+    name: pasajero
+    in: path
+    required: true
+    description: Nombre de la cuenta o del pasajero de quien se quieren consultar los datos
+    type: string     
+  conductorUsernameParam:
+    name: conductor
+    in: path
+    required: true
+    description: Nombre de la cuenta del conductor al que se desea acceder
+    type: string
+  pasajeroUsernameParam:
+    name: pasajero
+    in: path
+    required: true
+    description: Nombre de la cuenta del pasajero al que se desea acceder
+    type: string
+  viajeIdParam:
+    name: viajeID
+    in: path
+    required: true
+    description: id del viaje al que se desea acceder
+    type: integer
+
+definitions:
+  pasajeroDTO:
+    description: Objeto para transferir los datos de un pasajero
+    properties:
+      nombre:
+        description: Nombre del usuario
+        type: string
+      apellido: 
+        description: Apellidos del usuario
+        type: string
+      username: 
+        description: Nombre de la cuenta del usuario
+        type: string
+      mail: 
+        description: Correo electronico del usuario
+        type: string
+      rut: 
+        description: RUT del usuario
+        type: string
+      celular:
+        description: Numero de celular del usuario
+        type: string
+  conductorDTO:
+    description: Objeto para transferir los datos de un conductor
+    allOf:
+      - $ref: '#/definitions/pasajeroDTO'
+      - properties: 
+          fechaLicencia:
+            description: Fecha de vencimiento de la licencia? 
+            type: string
+            format: date-time
+          claseLicencia:
+            description: Tipo de licencia del conductor
+            type: string
+          tieneFoto:
+            description: True si el conductor ha subido una foto de el, false en caso contrario
+            type: boolean
+  vehiculoDTO:
+    description: Objeto para transferir los datos de un vehiculo
+    properties:
+      patente:
+        description: Patente del vehiculo
+        type: string
+      marca:
+        description: Marca del vehiculo
+        type: string
+      modelo:
+        description: Modelo del vehiculo
+        type: string
+      aptoSillaBebe:
+        type: boolean 
+        description: true si el vehiculo tiene soporte para sillas de bebe
+      dosPasajerosAtras:
+        type: boolean
+        description: true si en el vehiculo solo se llevaran 2 pasajeros atras como maximo
+      capacidadEquipaje:
+        type: integer
+        description: Cantidad maxima de maletas que soporta el vehiculo
+      numeroPlazas:
+        type: integer
+        description: Cantidad de asientes que tiene el vehiculo
+      conductor:
+        example: test1
+        type: string
+        description: Nombre de la cuenta del dueño del vehiculo
+  viajeDTO:
+    description: Describe tanto un viaje de la base de datos o un trayecto entre paradas de algun viaje
+    properties:
+      id:
+        example: 1
+        type: integer
+        description: Identificador unico del viaje
+      origen: 
+        example: ciudad1
+        type: string
+        description: Ciudad de origen del viaje
+      destino:
+        example: ciudad2
+        type: string
+        description: Ciudade de destino del viaje
+      fecha: 
+        example: 2018-11-13 15:00:00
+        type: string
+        format: date-time
+        description: Fecha de inicio del viaje
+      equipajeMaximo: 
+        example: 5
+        type: integer
+        description: Maximo de maletas que soporta el vehiculo
+      vehiculo:
+        $ref: '#/definitions/vehiculoDTO'
+  reservaDTO:
+    properties:
+      id:
+        example: 1
+        type: integer
+        description: identificador unico de la reserva
+      pasajero:
+        example: test2
+        type: string
+        description: Nombre de la cuenta del pasajero
+      idViaje:
+        example: 1
+        type: integer
+        description: id del viaje al que se le hizo la reserva
+      origen:
+        example: ciudad1
+        type: string
+        description: Ciudad en donde el pasajero se subira al viaje
+      destino:
+        example: ciudad2
+        type: string
+        description: Ciudad en donde se bajara el pasajero
+      asientos:
+        example: 2
+        type: integer
+        description: Numero de asientos que se desean reservar o fueron reservados
+      maletas:
+        example: 3
+        type: integer
+        description: Numero de maletas que lleva el pasajero
+      estado:
+        example: 1
+        type: integer
+        description: estado en el que se encuentra la solicitud de la reserva, 1=pendiente, 2=aprobada, 3=rechazada
+  paradaDTO:
+    properties:
+      idViaje:
+        example: 1
+        type: integer
+        description: id del viaje al que pertenece la parada
+      orden:
+        example: 1
+        type: integer
+        description: posicion, entre todas las paradas del viaje, en la que se visitara esta parada
+      ciudad:
+        example: ciudad1
+        type: string
+        description: nombre de la ciudad
+      hora:
+        example: 2018-01-01 15:00:00
+        type: string
+        format: date-time
+        description: Hora a la que se pretende salir de la parada
+      direccion:
+        example: Maipu 123
+        type: string
+        description: Direccion de donde se saldra de la parada.
+  id:
+    type: string
+    description: Contiene una descripcion del error, o 
+  errorMsg:
+    properties:
+      message:
+        type: string
+        description: Descripcion del error

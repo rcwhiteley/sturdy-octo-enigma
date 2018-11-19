@@ -20,9 +20,20 @@ function createConductorDTO(dbo){
     return dto;
 }
 
-async function getDatosCuenta(usuario){
-    
-};
+exports.getDatosConductor = (usuario) => {
+    return db.query('select * from pasajero, conductor where pasajero.username = conductor.username and pasajero.username = $1', [usuario])
+    .then(res =>{
+        return res.rows.map(createConductorDTO)
+    });
+    /*db.query(
+        `select * from pasajero, conductor where counductor.username = pasajero.username and conductor.username=$1`, [usuario])
+        .then(res =>{
+            return res.rows.map(createConductorDTO);
+        });
+    */
+}
+
+
 
 exports.createPasajeroDTO = createPasajeroDTO;
 exports.createConductorDTO = createConductorDTO;
