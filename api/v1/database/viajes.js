@@ -97,9 +97,9 @@ exports.listParadas = (viajeID) =>{
 };
 
 exports.deleteViaje = (viajeID)=>{
-    return db.query('delete from reserva where idViaje = $1', [viajeID])
-    .then('delete from parada where idViaje = $1', [viajeID])
-    .then('delete from viaje where id = $1', [viajeID]);
+    return db.query('delete from reserva where idviaje = $1', [viajeID])
+    .then(db.query('delete from parada where idviaje = $1', [viajeID]))
+    .then(db.query('delete from viaje where id = $1', [viajeID]));
 }
 
 exports.listViajesQuePasanPor = (origen, destino, fechaMinima, fechaMaxima, asientosNecesarios, maletas) => {
