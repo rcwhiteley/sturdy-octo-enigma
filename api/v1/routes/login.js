@@ -10,9 +10,18 @@ router.post('/login', async (req, res)=>{
         let result = {
 
         };
-        result.valido = await db.usuarios.esUsuarioValido(user, pass);
-        if(result.valido){
-            result.usuario = await db.usuarios.getUsuarioById(user);
+
+        if(req.body.conductor == true){
+            result.valido = await db.usuarios.esConductorValido(user, pass);
+            if(result.valido){
+                result.usuario = await db.usuarios.getConductorById(user);
+            }
+        }
+        else{
+            result.valido = await db.usuarios.esUsuarioValido(user, pass);
+            if(result.valido){
+                result.usuario = await db.usuarios.getUsuarioById(user);
+            }
         }
         //result.conductor = await db.usuarios.getConductorById(user);
         res.send(result);

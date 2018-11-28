@@ -76,5 +76,12 @@ exports.esUsuarioValido = (username, password) =>{
     });
 }
 
+exports.esConductorValido = (username, password) =>{
+    return db.query('select * from pasajero, conductor where pasajero.username = $1 and pasajero.contraseña = $2 and pasajero.username=conductor.username', [username, password])
+    .then(res =>{ 
+        return res.rowCount > 0;
+    });
+}
+
 exports.createPasajeroDTO = createPasajeroDTO;
 exports.createConductorDTO = createConductorDTO;
