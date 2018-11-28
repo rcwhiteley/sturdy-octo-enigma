@@ -336,6 +336,22 @@ paths:
           description: No se retornaron datos, es probable que no exista en la base de datos
       security:
         - keystone: []
+    delete:
+      tags:
+        - conductores
+      operationId: deleteViaje
+      summary: Borra un viaje del conductor
+      description: Borra un viaje del conductor al que se accedio
+      parameters:
+        - $ref: '#/parameters/viajeIdParam'
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No se retornaron datos, es probable que no exista en la base de datos
+      security:
+        - keystone: []
+
   /viajes/{viajeID}/pasajeros:
     get:
       tags:
@@ -383,6 +399,7 @@ paths:
             $ref: '#/definitions/errorMsg'
       security:
         - keystone: []
+
   /viajes/{viajeID}/paradas:
     get:
       tags:

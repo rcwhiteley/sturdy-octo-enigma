@@ -53,4 +53,16 @@ router.get('/:viajeID', async (req, res)=>{
     }
 });
 
+/**
+ * elimina un viaje
+ */
+router.delete('/:viajeID', async (req, res) => {
+    try{
+        await db.viajes.deleteViaje(req.params.viajeID);
+        res.sendStatus(200);
+    }
+    catch(error){
+        res.sendStatus(500);
+    }  
+});
 module.exports = router;

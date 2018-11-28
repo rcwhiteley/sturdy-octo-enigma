@@ -63,12 +63,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-/**
- * elimina un viaje
- */
-router.delete('/:viajeID', async (req, res) => {
-    
-});
+
 
 /**
  * por hacer, actualiza el viaje
