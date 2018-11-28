@@ -419,6 +419,23 @@ paths:
           description: Consulta mal formada
       security:
         - keystone: []
+    
+  /login:
+    post:
+      operationId: login
+      parameters:
+        - in: body
+          required: true
+          name: vehiculo
+          description:
+          schema:
+            $ref: '#/definitions/userData'
+      responses:
+        '200':
+          description: OK
+      security:
+        - keystone: []
+
 
 tags:
 - name: conductores
@@ -677,3 +694,11 @@ definitions:
       message:
         type: string
         description: Descripcion del error
+  userData:
+    properties:
+      usuario:
+        type: string
+        description: username
+      password:
+        type: string
+        description: password
