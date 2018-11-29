@@ -31,7 +31,7 @@ exports.cambiarEstadoReserva = ()=>{
 
 exports.getReservasPasajero = (username)=>{
     return db.query(`select reserva.*, parada.hora from reserva, parada where usuario=$1
-    and parada.idviaje = reserva.idviaje and reserva.origen = parada.ciudad`, [username]).
+    and parada.idviaje = reserva.idviaje and reserva.origen = parada.ciudad and reserva.estado <> $2`, [username, consts.RESERVA_CANCELADA]).
         then(result=>{
             return result.rows.map(createDTO);
         });
@@ -71,7 +71,7 @@ exports.cambiarEstadoReserva = (reservaID, estado) =>{
 
 exports.getReservasRecibidas = (conductor, viajeid) =>{
     return db.query(
-        `select * from reserva where idviaje=$1`, [viajeid]
+        `select * from reserva where idviaje=$1 and reserva.estado <> $2`, [viajeid, consts.RESERVA_CANCELADA]
     ).then(result => {
          return result.rows.map(createDTO);
     });
