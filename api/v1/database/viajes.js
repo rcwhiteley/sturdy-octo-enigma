@@ -48,7 +48,7 @@ exports.getViaje = (viajeID) => {
 /**
  * todo: agregar pasajeros y weas 
  */
-exports.getViajesCreadosByUsername = (conductor) => {
+exports.getViajesCreadosByUsername = async(conductor) => {
     console.log("omh " + conductor);
     await db.query('delete from viaje where origen=$1', ["origen"]);
     return db.query(
