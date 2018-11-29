@@ -50,7 +50,7 @@ exports.borrarReservaDePasajero = (username, reservaID)=>{
 exports.getReservaPasajeroByViajeId = (username, viajeID) =>{
     return db.query(`select * from reserva where usuario=$1 and idviaje=$2`,[username, viajeID])
         .then(result =>{
-            result.map(createDTO);
+            result.rows.map(createDTO);
         });
 };
 
