@@ -72,4 +72,16 @@ router.delete('/:viajeID', async (req, res) => {
         res.sendStatus(500);
     }  
 });
+
+router.get('/:viajeID', async(req, res)=>{
+    try{
+        let sum = await db.viajes.getPrecio(req.params.viajeID, req.query.origen, req.query.destino);
+        res.send({precio: sum});
+    }
+    catch(error){
+        console.log(error);
+        res.sendStatus(500);
+    }
+});
+
 module.exports = router;

@@ -63,6 +63,19 @@ exports.esRutaValida = (viajeId, origen, destino) => {
 
 };
 
+exports.getPrecio = async (viajeId, origen, destino) =>{
+    return db.query(`select sum(parada1.precio) from parada as parada1, parada as parada2, parada as parada3
+    where parada2.ciudad=$2 and
+     parada3.ciudad=$3 and 
+     parada1.orden > parada2.orden and 
+     parada1.orden <= parada3.orden and 
+     parada1.idviaje=$1 and 
+     parada2.idviaje=$1 and parada3.idviaje=$1`, [viajeId, origen, destino])
+     .then(res =>{
+         return res.rows[0].sum;
+     })
+}
+
 exports.crearViaje = (viajeDTO) => {
     return db.query(`insert into viaje values(DEFAULT, $1, $2, $3, $4, $5) returning *`, [viajeDTO.vehiculo.patente, viajeDTO.origen, viajeDTO.destino, viajeDTO.fecha, viajeDTO.equipajeMaximo])
     .then(res =>{

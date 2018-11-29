@@ -1,4 +1,5 @@
 const db = require('./connection');
+const database = require('../database/database');
 const consts = require('./constants');
 let createDTO = (dbo) => {
     return {
@@ -10,7 +11,8 @@ let createDTO = (dbo) => {
         estado: dbo.estado,
         maletas: dbo.maletas,
         hora: dbo.hora,
-        asientos: dbo.numasientos
+        asientos: dbo.numasientos,
+        //precio:  database.viajes.getPrecio(dbo.idviaje, dbo.origen, dbo.destino)
     }
 };
 
@@ -32,8 +34,12 @@ exports.cambiarEstadoReserva = ()=>{
 exports.getReservasPasajero = (username)=>{
     return db.query(`select reserva.*, parada.hora from reserva, parada where usuario=$1
     and parada.idviaje = reserva.idviaje and reserva.origen = parada.ciudad and reserva.estado <> $2`, [username, consts.RESERVA_CANCELADA]).
-        then(result=>{
-            return result.rows.map(createDTO);
+        then(async result=>{
+            let rows = result.rows.map(createDTO);
+            for(let i = 0; i < rows.length; i++){
+                rows[i].precio = await database.viajes.getPrecio(rows[i].idViaje, rows[i].origen, rows[i].destino);
+            }
+            return rows;
         });
 };
 
