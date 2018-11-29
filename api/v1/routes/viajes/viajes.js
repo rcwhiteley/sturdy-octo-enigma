@@ -73,7 +73,7 @@ router.delete('/:viajeID', async (req, res) => {
     }  
 });
 
-router.get('/:viajeID', async(req, res)=>{
+router.get('/:viajeID/precio', async(req, res)=>{
     try{
         let sum = await db.viajes.getPrecio(req.params.viajeID, req.query.origen, req.query.destino);
         res.send({precio: sum});
