@@ -87,7 +87,7 @@ exports.asignarParadas = async (viajeID, paradas) => {
     const client = await db.pool.connect();
     try {
         await client.query('BEGIN');
-        await client.query('update viaje set origen=$1, destino=$2 where idviaje=$3', [paradas[0].ciudad, paradas[paradas.length - 1].ciudad, paradas[0].viajeID]);
+        await client.query('update viaje set origen=$1, destino=$2 where id=$3', [paradas[0].ciudad, paradas[paradas.length - 1].ciudad, paradas[0].viajeID]);
         await client.query('delete from reserva where idviaje=$1', [viajeID]);
         let res = await client.query('delete from parada where idviaje=$1', [viajeID]);
         
