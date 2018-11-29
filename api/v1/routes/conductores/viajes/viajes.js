@@ -37,27 +37,32 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     if(req.body.origen == undefined){
-        res.status(400).send(consts.crearErrorMsg('paramero origen no encontrado en el cuerpo de la consulta'));
+        res.status(400).send(consts.crearErrorMsg('parametro origen no encontrado en el cuerpo de la consulta'));
     }   
     else if(req.body.destino == undefined){
-        res.status(400).send(consts.crearErrorMsg('paramero destino no encontrado en el cuerpo de la consulta'));
+        res.status(400).send(consts.crearErrorMsg('parametro destino no encontrado en el cuerpo de la consulta'));
     }
     else if(req.body.fecha == undefined){
-        res.status(400).send(consts.crearErrorMsg('paramero fecha no encontrado en el cuerpo de la consulta'));
+        res.status(400).send(consts.crearErrorMsg('parametro fecha no encontrado en el cuerpo de la consulta'));
     }
-    else if(req.body.equipajeMaximo == undefined){
-        res.status(400).send(consts.crearErrorMsg('paramero equipajeMax no encontrado en el cuerpo de la consulta'));
-    }
-    else if(req.body.vehiculo.patente == undefined){
-        res.status(400).send(consts.crearErrorMsg('paramero vehiculo.patente no encontrado en el cuerpo de la consulta'));
-    }
+    //else if(req.body.equipajeMaximo == undefined){
+    //    res.status(400).send(consts.crearErrorMsg('parametro equipajeMax no encontrado en el cuerpo de la consulta'));
+    //}
+    //else if(req.body.vehiculo.patente == undefined){
+    //    res.status(400).send(consts.crearErrorMsg('parametro vehiculo.patente no encontrado en el cuerpo de la consulta'));
+    //}
     else{
-        let result = await db.viajes.crearViaje(req.body);
-        if(result.rowCount > 0){
-            res.sendStatus(200);
-        }
-        else{
+        try{
+            console.log(req.conductor);
+            let vehiculos = await db.vehiculos.listVehiculosConductor(req.conductor);
+            req.body.vehiculo = vehiculos[0];
+            req.body.equipajeMaximo = vehiculos[0].capacidadEquipaje;
+            let result = await db.viajes.crearViaje(req.body);
             console.log(result);
+            res.send(result);
+        }
+        catch(error){
+            console.log(error);
             res.status(500).send(consts.crearErrorMsg('Ocurrio un error al insertar en la base de datos'));
         }
     }

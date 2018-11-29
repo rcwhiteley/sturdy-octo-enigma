@@ -63,7 +63,10 @@ exports.esRutaValida = (viajeId, origen, destino) => {
 };
 
 exports.crearViaje = (viajeDTO) => {
-    return db.query(`insert into viaje values(DEFAULT, $1, $2, $3, $4, $5)`, [viajeDTO.vehiculo.patente, viajeDTO.origen, viajeDTO.destino, viajeDTO.fecha, viajeDTO.equipajeMaximo]);
+    return db.query(`insert into viaje values(DEFAULT, $1, $2, $3, $4, $5) returning *`, [viajeDTO.vehiculo.patente, viajeDTO.origen, viajeDTO.destino, viajeDTO.fecha, viajeDTO.equipajeMaximo])
+    .then(res =>{
+        return createDTO(res.rows[0]);
+    });
 }
 
 exports.asignarParadas = async (viajeID, paradas) => {

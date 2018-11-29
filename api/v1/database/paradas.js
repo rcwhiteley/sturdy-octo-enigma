@@ -7,6 +7,7 @@ function createDTO(dbo){
         ciudad: dbo.ciudad,
         hora: dbo.hora,
         direccion: dbo.direccion,
+        precio: dbo.precio,
     }
 }
 
