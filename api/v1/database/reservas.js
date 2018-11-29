@@ -48,8 +48,7 @@ exports.borrarReservaDePasajero = (username, reservaID)=>{
 }
 
 exports.getReservaPasajeroByViajeId = (username, viajeID) =>{
-    return 
-        db.query(`select * from reserva where usuario=$1 and idviaje=$2`,[username, viajeID])
+    return db.query(`select * from reserva where usuario=$1 and idviaje=$2`,[username, viajeID])
         .then(result =>{
             result.map(createDTO);
         });
@@ -78,7 +77,11 @@ exports.cambiarEstadoReserva = (reservaID, estado) =>{
 exports.getReservasRecibidas = (conductor, viajeid) =>{
     return db.query(
         `select * from reserva where idviaje=$1 and reserva.estado <> $2`, [viajeid, consts.RESERVA_CANCELADA]
-    ).then(result => {
-         return result.rows.map(createDTO);
+    ).then(async result=>{
+        let rows = result.rows.map(createDTO);
+        for(let i = 0; i < rows.length; i++){
+            rows[i].precio = await database.viajes.getPrecio(rows[i].idViaje, rows[i].origen, rows[i].destino);
+        }
+        return rows;
     });
 }
