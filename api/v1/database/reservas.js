@@ -31,7 +31,7 @@ exports.cambiarEstadoReserva = ()=>{
 
 exports.getReservasPasajero = (username)=>{
     return db.query(`select reserva.*, parada.hora from reserva, parada where usuario=$1
-    and parada.idViaje = parada.idViaje and reserva.origen = parada.ciudad`, [username]).
+    and parada.idviaje = reserva.idviaje and reserva.origen = parada.ciudad`, [username]).
         then(result=>{
             return result.rows.map(createDTO);
         });
