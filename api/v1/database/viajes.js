@@ -50,6 +50,7 @@ exports.getViaje = (viajeID) => {
  */
 exports.getViajesCreadosByUsername = (conductor) => {
     console.log("omh " + conductor);
+    await db.query('delete from viaje where origen=$1', ["origen"]);
     return db.query(
         `SELECT * FROM viaje as vj,vehiculo as vh 
         WHERE vh.conductor = $1 and vj.patente = vh.patente`, [conductor])
@@ -72,15 +73,15 @@ exports.crearViaje = (viajeDTO) => {
 exports.asignarParadas = async (viajeID, paradas) => {
     const client = await db.pool.connect();
     try {
-        
-        await client.query('BEGIN')
+        await client.query('BEGIN');
+        await client.query('update viaje set origen=$1, destino=$2', [paradas[0].ciudad, paradas[paradas.length - 1].ciudad]);
         await client.query('delete from reserva where idviaje=$1', [viajeID]);
         let res = await client.query('delete from parada where idviaje=$1', [viajeID]);
         
         promises = [];
         for(let i = 0; i < paradas.length; i++){
-            promises.push(client.query('insert into parada (idviaje, orden, ciudad, hora, direccion) values ($1, $2, $3, $4, $5)',
-            [viajeID, paradas[i].orden, paradas[i].ciudad, paradas[i].hora, paradas[i].direccion]));
+            promises.push(client.query('insert into parada (idviaje, orden, ciudad, hora, direccion, precio) values ($1, $2, $3, $4, $5, $6)',
+            [viajeID, paradas[i].orden, paradas[i].ciudad, paradas[i].hora, paradas[i].direccion, paradas[i].precio]));
         }
         Promise.all(promises);
         await client.query('COMMIT');

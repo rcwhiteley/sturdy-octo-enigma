@@ -3,13 +3,6 @@ const router = express.Router();
 const db = require('../../database/database');
 const consts = require('../../database/constants');
 
-function esParadaInvalida(parada){
-    console.log("se evaluara: ",parada);
-    return (parada.orden == undefined 
-        || parada.ciudad == undefined
-        || parada.direccion == undefined
-        || parada.hora == undefined);
-}
 
 
 router.get('/', async (req, res)=>{
