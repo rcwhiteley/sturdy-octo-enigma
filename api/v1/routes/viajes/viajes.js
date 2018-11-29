@@ -4,13 +4,19 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment')
 const db = require('../../database/database');
-const pasajeros = require('./pasajeros')
+const pasajeros = require('./pasajeros');
+const paradas = require('./paradas');
 
 
 router.use('/:viajeID/pasajeros', function(req, res, next) {
     req.viajeID= req.params.viajeID;
     next()
   }, pasajeros);
+
+  router.use('/:viajeID/paradas', function(req, res, next) {
+    req.viajeID= req.params.viajeID;
+    next()
+  }, paradas);
 
 
 /**

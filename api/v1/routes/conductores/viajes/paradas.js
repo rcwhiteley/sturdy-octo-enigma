@@ -28,12 +28,14 @@ router.post('/', async (req, res)=>{
 
 
 router.get('/', async (req, res)=>{
-    let result = await db.viajes.listParadas(req.viajeID).catch(err => {return  err});
-    // comprobar de mejor manera esto :S
-    if(res.name == undefined){
-        res.send(result);
+    try{
+        let result = await db.viajes.listParadas(req.viajeID);
+        // comprobar de mejor manera esto :S
+  
+            res.send(result);
+        
     }
-    else{
+    catch(error){
         res.status(500).send(consts.crearErrorMsg('Hubo un error al obtener los viajes'));
     }
 
